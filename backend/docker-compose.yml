@@ -1,0 +1,51 @@
+networks:
+  prod_net:
+    name: book-review-network
+
+volumes:
+  database_pg_data:
+    name: database-pg-data
+
+services:
+  postgres_database:
+    container_name: postgres_container
+    image: 'postgres:16-bookworm'
+    environment:
+      POSTGRES_USER: '${DATABASE_USERNAME}'
+      POSTGRES_PASSWORD: '${DATABASE_PASSWORD}'
+      POSTGRES_DB: '${DATABASE_NAME}'
+    ports:
+      - '5439:5432'
+    restart: '${DOCKER_RESTART_POLICY:-unless-stopped}'
+    stop_grace_period: '3s'
+    volumes:
+      - ../database_pg_data:/var/lib/postgresql/data
+      - ../data/postgres/initdb.d:/docker-entrypoint-initdb.d
+    networks:
+      - prod_net
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'pg_isready -U ${DATABASE_USERNAME} -d ${DATABASE_NAME}']
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  backend_api:
+    container_name: api_container
+    restart: '${DOCKER_RESTART_POLICY:-unless-stopped}'
+    env_file:
+      - ./.env
+    volumes:
+      - ./node_modules:/app/node_modules
+      - .:/app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3001'
+    depends_on:
+      postgres_database:
+        condition: service_healthy
+    networks:
+      - prod_net
