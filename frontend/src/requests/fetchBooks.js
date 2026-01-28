@@ -11,3 +11,14 @@ export const fetchBooks = () => {
     },
   });
 };
+
+export const fetchUserBooks = () => {
+  return useQuery({
+    queryKey: ["userAddedBooks"],
+    queryFn: async () => {
+      const response = await api.get("/book/list/user");
+
+      return response.data;
+    },
+  });
+};
