@@ -1,23 +1,36 @@
 import { FormEvent, useState } from "react";
+import { addNewBook } from "../requests/addBook";
+import { useCategoryContext } from "../contexts/categoriesContext";
 
 const BookAddPopup = ({ showPopup, setShowPopup, addBook }) => {
+  const { categories } = useCategoryContext();
   const [newBook, setNewBook] = useState({
     title: "",
     description: "",
     author: "",
     categoryId: "",
+    file: undefined,
   });
+  
+  const checkFileSize = (size) => {
+    if (size > 1024 * 1024) {
+      return false;
+    }
+    return true;
+  };
 
-  const handleAddBook = (e) => {
+  const handleAddBook = async (e) => {
     e.preventDefault();
-    // addBook(newBook);
-    console.log("this is the new book: ", newBook);
+    await addNewBook(newBook);
+
+    alert("File uploaded successfully!");
     setShowPopup(false);
     setNewBook({
       title: "",
       description: "",
       author: "",
       categoryId: "",
+      file: undefined,
     });
   };
 
@@ -89,11 +102,31 @@ const BookAddPopup = ({ showPopup, setShowPopup, addBook }) => {
                 setNewBook((prev) => ({ ...prev, categoryId: e.target.value }))
               }
             >
-              <option className="text-lg" value={"science-fiction"}>
-                Science Fiction
-              </option>
-              <option value={"history"}>History</option>
+              {categories.data.map((category) => {
+                return (
+                  <option
+                    className="text-lg"
+                    value={category.value}
+                    key={category.id}
+                  >
+                    {category.name}
+                  </option>
+                );
+              })}
             </select>
+          </div>
+          <div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                if (checkFileSize(e.target.files[0].size)) {
+                  setNewBook((prev) => ({ ...prev, file: e.target.files[0] }));
+                } else {
+                  alert("File Size too large");
+                }
+              }}
+            />
           </div>
           <button
             type="submit"
