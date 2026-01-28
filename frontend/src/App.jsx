@@ -6,6 +6,10 @@ const LazyDetailsPage = React.lazy(() => import("./pages/DetailsPage"));
 const LazyStorePage = React.lazy(() => import("./pages/StorePage"));
 const LazySearchPage = React.lazy(() => import("./pages/SearchPage"));
 const LazyPageNotFound = React.lazy(() => import("./components/PageNotFound"));
+const LazyProfilePage = React.lazy(() => import("./pages/ProfilePage"));
+const LazyUserBookReviewPage = React.lazy(
+  () => import("./pages/UserBookReviewPage"),
+);
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AuthProvider, {
@@ -69,6 +73,22 @@ export default function App() {
               </React.Suspense>
             }
           />
+          <Route
+            path="/profile"
+            element={
+              <React.Suspense fallback={""}>
+                <LazyProfilePage />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="/profile/reviews"
+            element={
+              <React.Suspense fallback={""}>
+                <LazyUserBookReviewPage />
+              </React.Suspense>
+            }
+          />          
           <Route
             path="/*"
             element={
