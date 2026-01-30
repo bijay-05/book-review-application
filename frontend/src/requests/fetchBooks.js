@@ -1,6 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "./axiosInstance";
 
+export const fetchBookDetail = (bookId) => {
+  return useQuery({
+    queryKey: ["bookDetail"],
+    queryFn: async () => {
+      const response = await api.get(`/book/${bookId}`);
+
+      return response.data.data;
+    },
+  });
+};
+
 export const fetchBooks = () => {
   return useQuery({
     queryKey: ["books"],
