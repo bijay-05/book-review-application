@@ -1,9 +1,10 @@
 import { FormEvent, useState } from "react";
-import { addNewBook } from "../requests/addBook";
 import { useCategoryContext } from "../contexts/categoriesContext";
 
-const BookAddPopup = ({ showPopup, setShowPopup, addBook }) => {
+const BookAddPopup = ({ showPopup, setShowPopup, addNewBook }) => {
   const { categories } = useCategoryContext();
+
+  console.log("These are categories available: ", categories);
   const [newBook, setNewBook] = useState({
     title: "",
     description: "",
@@ -11,7 +12,7 @@ const BookAddPopup = ({ showPopup, setShowPopup, addBook }) => {
     categoryId: "",
     file: undefined,
   });
-  
+
   const checkFileSize = (size) => {
     if (size > 1024 * 1024) {
       return false;
@@ -22,6 +23,7 @@ const BookAddPopup = ({ showPopup, setShowPopup, addBook }) => {
   const handleAddBook = async (e) => {
     e.preventDefault();
     await addNewBook(newBook);
+    console.log("this is the new book: ", newBook);
 
     alert("File uploaded successfully!");
     setShowPopup(false);

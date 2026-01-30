@@ -1,4 +1,4 @@
-export default function AddBookButton({ setShowPopup }) {
+export default function AddBookCard({ setShowPopup }) {
   return (
     <>
       <div className="py-4 px-8 ml-32">
