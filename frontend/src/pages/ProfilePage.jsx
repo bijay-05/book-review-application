@@ -1,4 +1,4 @@
-import EachProductCard from "../components/EachProductCard";
+import EachBookCard from "../components/EachBookCard";
 import { fetchUserBooks } from "../requests/fetchBooks";
 import { useNavigate } from "react-router-dom";
 
@@ -43,12 +43,11 @@ export default function ProfilePage() {
       <div className="min-h-screen px-8 py-4 flex gap-4 flex-wrap justify-center">
         {books?.data?.map((book, idx) => {
           return (
-            <EachProductCard
+            <EachBookCard
               key={book.id}
-              productId={book.id}
-              imgSrc="https://anamikastorage.s3.ap-south-1.amazonaws.com/books/abcd-17693-efgh.png" //{book?.imgSrc}
-              productTitle={book.title}
-              productPrice={book.author}
+              imgSrc="https://anamikastorage.s3.ap-south-1.amazonaws.com/books/abcd-17693-efgh.png"
+              bookTitle={book.title}
+              author={book.author}
             />
           );
         })}

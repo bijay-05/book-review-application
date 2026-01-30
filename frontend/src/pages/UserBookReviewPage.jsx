@@ -1,22 +1,22 @@
-import EachProductCard from "../components/EachProductCard";
-import { fetchUserBooks } from "../requests/fetchBooks";
+import EachReviewCard from "../components/EachReviewCard";
+import { fetchReviewsByUser } from "../requests/fetchReviews";
 import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
   const {
-    data: books,
-    isLoading: isBookLoading,
-    isError: isBookError,
-  } = fetchUserBooks();
+    data: reviewsByUser,
+    isLoading: isReviewLoading,
+    isError: isReviewError,
+  } = fetchReviewsByUser();
 
-  if (isBookLoading) {
+  if (isReviewLoading) {
     return (
       <p className="min-h-[250px] py-4 text-center font-semibold text-xl">
         Loading...
       </p>
     );
-  } else if (isBookError) {
+  } else if (isReviewError) {
     return (
       <div className="min-h-[250px] flex items-center bg-red-800">
         <p className="w-full py-4 text-center font-semibold text-xl text-white">
@@ -40,15 +40,13 @@ export default function ProfilePage() {
           Book Collection
         </button>
       </div>
-      <div className="min-h-screen px-8 py-4 flex gap-4 flex-wrap justify-center">
-        {books?.data?.map((book, idx) => {
+      <div className="min-h-screen px-8 py-4 ">
+        {reviewsByUser?.data?.map((review, idx) => {
           return (
-            <EachProductCard
-              key={book.id}
-              productId={book.id}
-              imgSrc="https://anamikastorage.s3.ap-south-1.amazonaws.com/books/abcd-17693-efgh.png" //{book?.imgSrc}
-              productTitle={book.title}
-              productPrice={book.author}
+            <EachReviewCard
+              key={review.id}
+              value={review.value}
+              author={review.author}
             />
           );
         })}
