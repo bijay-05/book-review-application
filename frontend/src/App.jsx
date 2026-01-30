@@ -2,9 +2,9 @@ import "./index.css";
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import LogIn from "./pages/LoginPage";
+import SignUp from "./pages/SignUpPage";
 const LazyDetailsPage = React.lazy(() => import("./pages/DetailsPage"));
-const LazyStorePage = React.lazy(() => import("./pages/StorePage"));
-const LazySearchPage = React.lazy(() => import("./pages/SearchPage"));
 const LazyPageNotFound = React.lazy(() => import("./components/PageNotFound"));
 const LazyProfilePage = React.lazy(() => import("./pages/ProfilePage"));
 const LazyUserBookReviewPage = React.lazy(
@@ -31,14 +31,14 @@ export default function App() {
             element={
               <>
                 <AuthProvider>
-                  <AuthIsNotSignedIn>
+                  <AuthIsSignedIn>
                     <AddBookCard setShowPopup={setShowBookAddDialog} />
                     <BookAddPopup
                       showPopup={showBookAddDialog}
                       setShowPopup={setShowBookAddDialog}
                       addTodo={() => null}
                     />
-                  </AuthIsNotSignedIn>
+                  </AuthIsSignedIn>
                 </AuthProvider>
                 <HomePage />
               </>
@@ -49,30 +49,16 @@ export default function App() {
             path="/details/:productId"
             element={
               <AuthProvider>
-                <AuthIsSignedIn>
+                <AuthIsNotSignedIn>
                   <React.Suspense fallback={""}>
                     <LazyDetailsPage />
                   </React.Suspense>
-                </AuthIsSignedIn>
+                </AuthIsNotSignedIn>
               </AuthProvider>
             }
           />
-          <Route
-            path="/search"
-            element={
-              <React.Suspense fallback={""}>
-                <LazySearchPage />
-              </React.Suspense>
-            }
-          />
-          <Route
-            path="/mystore"
-            element={
-              <React.Suspense fallback={""}>
-                <LazyStorePage />
-              </React.Suspense>
-            }
-          />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route
             path="/profile"
             element={
@@ -88,7 +74,7 @@ export default function App() {
                 <LazyUserBookReviewPage />
               </React.Suspense>
             }
-          />          
+          />
           <Route
             path="/*"
             element={

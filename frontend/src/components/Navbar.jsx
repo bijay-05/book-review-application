@@ -7,6 +7,7 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import AuthProvider, { AuthIsSignedIn } from "../contexts/authContext";
 
 export default function Navbar() {
   const [userProfileFlag, setUserProfileFlag] = useState(false);
@@ -50,36 +51,53 @@ export default function Navbar() {
           </div>
           <div className="w-full md:w-fit text-center bg-blue-200 rounded-md">
             <Link
-              to="/mystore"
+              to="/login"
               className="font-bold block md:inline-block py-1 px-4 hover:bg-orange-300 hover:text-white hover:rounded-lg"
             >
               <FontAwesomeIcon icon={faStore} />
-              <span className="px-2">My Store ({cartProducts.length})</span>
+              <span className="px-2">Login</span>
+            </Link>
+          </div>
+          <div className="w-full md:w-fit text-center bg-blue-200 rounded-md">
+            <Link
+              to="/signup"
+              className="font-bold block md:inline-block py-1 px-4 hover:bg-orange-300 hover:text-white hover:rounded-lg"
+            >
+              <FontAwesomeIcon icon={faStore} />
+              <span className="px-2">Sign Up</span>
             </Link>
           </div>
         </div>
         {/*  */}
-        <div className="flex items-center">
-          <div
-            className="relative px-4 py-2 border-2 border-blue-200 bg-blue-200 cursor-pointer rounded-lg ml-auto"
-            onClick={changeUserProfileFlag}
-          >
-            <FontAwesomeIcon icon={faUser} />
-            <span className="px-2">Hello, John</span>
-            {userProfileFlag && (
-              <div className="py-2 absolute top-full -right-px w-[150px] shadow-lg bg-white rounded-lg">
-                <span className="block w-full px-4 py-1 hover:bg-green-600 hover:border-green-300 hover:text-white">
-                  Profile
-                </span>
-                <span className="block w-full px-4 py-1 hover:bg-green-600 hover:text-white">
-                  Settings
-                </span>
-                <span className="block w-full px-4 py-1 hover:bg-white hover:text-red-500 font-semibold">
-                  Log Out
-                </span>
+        <div>
+          <AuthProvider>
+            <AuthIsSignedIn>
+              <div className="flex items-center">
+                <div
+                  className="relative px-4 py-2 border-2 border-blue-200 bg-blue-200 cursor-pointer rounded-lg ml-auto"
+                  onClick={changeUserProfileFlag}
+                >
+                  <FontAwesomeIcon icon={faUser} />
+                  <span className="px-2">Hello, John</span>
+                  {userProfileFlag && (
+                    <div className="py-2 absolute top-full -right-px w-[150px] shadow-lg bg-white rounded-lg">
+                      <Link to="/profile">
+                        <span className="block w-full px-4 py-1 hover:bg-green-600 hover:border-green-300 hover:text-white">
+                          Profile
+                        </span>
+                      </Link>
+                      <span className="block w-full px-4 py-1 hover:bg-green-600 hover:text-white">
+                        Settings
+                      </span>
+                      <span className="block w-full px-4 py-1 hover:bg-white hover:text-red-500 font-semibold">
+                        Log Out
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
-          </div>
+            </AuthIsSignedIn>
+          </AuthProvider>
         </div>
       </div>
     </div>
