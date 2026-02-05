@@ -8,12 +8,12 @@ import {
 import { ICreateBook } from "../interfaces/book.interface";
 
 export class FileCreateDto {
-  bookId: number;
+  // bookId: number;
   name: string;
 }
 
 export class BookCreateDto implements ICreateBook {
-  @IsAlphanumeric()
+  @IsString()
   @IsNotEmpty()
   title: string;
 
@@ -21,11 +21,12 @@ export class BookCreateDto implements ICreateBook {
   @IsNotEmpty()
   description: string;
 
-  @IsArray({ each: true })
+  @IsArray()
+  @IsString({ each: true })
   @IsNotEmpty()
   authors: string[];
 
-  @IsArray({ each: true })
+  @IsArray()
   @IsNotEmpty()
   images: FileCreateDto[];
 

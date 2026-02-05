@@ -6,7 +6,11 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { PrismaClient } from "prisma/prisma/internal/class";
-import { ICreateBook } from "./interfaces/book.interface";
+import {
+  IBookList,
+  ICreateBook,
+  IUserBookList,
+} from "./interfaces/book.interface";
 import { Book, File } from "prisma/prisma/client";
 
 @Injectable()
@@ -17,22 +21,12 @@ export class BookService {
   ) {}
 
   async create(createDto: ICreateBook): Promise<Book> {
-    const existingUser = await this.prismaClient.user.findFirst({
-      where: {
-        id: createDto.userId,
-      },
-    });
-
-    if (!existingUser) {
-      throw new NotFoundException("User not found");
-    }
-
     const createdBook = await this.prismaClient.book.create({
       data: {
         title: createDto.title,
         description: createDto.description,
         authors: createDto.authors,
-        userId: existingUser.id,
+        userId: createDto.userId,
         images: {
           createMany: {
             data: createDto.images,
@@ -44,13 +38,14 @@ export class BookService {
     return createdBook;
   }
 
-  async getAll(): Promise<Partial<Book>[]> {
+  async getAll(): Promise<IBookList[]> {
     const books = await this.prismaClient.book.findMany({
       select: {
         id: true,
         title: true,
         description: true,
         authors: true,
+        createdAt: true,
         images: {
           select: {
             name: true,
@@ -103,5 +98,31 @@ export class BookService {
     }
 
     return book;
+  }
+
+  async getByUserId(userId: number): Promise<IUserBookList[]> {
+    const books = await this.prismaClient.book.findMany({
+      where: {
+        userId: userId,
+      },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        authors: true,
+        createdAt: true,
+        images: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (books.length < 1) {
+      throw new BadRequestException("Books not found");
+    }
+
+    return books;
   }
 }
