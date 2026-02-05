@@ -38,13 +38,30 @@ export class UserService {
     return createdUser;
   }
 
-  async getById(id: number): Promise<Partial<User>> {
+  async getById(id: number): Promise<Omit<User, "password">> {
     const user = await this.prismaClient.user.findFirst({
       where: {
         id: id,
       },
       select: {
-        password: false,
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    return user;
+  }
+
+  async getByEmail(email: string): Promise<User> {
+    const user = await this.prismaClient.user.findFirst({
+      where: {
+        email: email,
       },
     });
 
