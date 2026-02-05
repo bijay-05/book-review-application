@@ -3,9 +3,9 @@ FROM node:24-alpine
 # Create app directory
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json package-lock.json ./
 
-RUN  npm install -g @nestjs/cli@11 && npm i
+RUN  npm install -g @nestjs/cli@11 && npm ci
 
 COPY . .
 
