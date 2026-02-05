@@ -46,7 +46,7 @@ export default function App() {
           />
           <Route path="/home" element={<Navigate to="/" />} />
           <Route
-            path="/details/:productId"
+            path="/details/:bookId"
             element={
               <AuthProvider>
                 <AuthIsNotSignedIn>

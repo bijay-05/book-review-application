@@ -5,7 +5,7 @@ export const fetchCategory = () => {
   return useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const response = await api.get("/category/list");
+      const response = await api.get("/category");
 
       return response.data;
     },

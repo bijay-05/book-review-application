@@ -111,16 +111,25 @@ export default function DetailsPage() {
       <div className="border-2 min-h-full bg-yellow-200 flex flex-col justify-center">
         <div className="text-3xl">Reviews</div>
         <div className="border-2 ">
-          {reviewList.data.map((review, idx) => {
-            return (
-              <EachReviewCard
-                key={review.id}
-                value={review.value}
-                author={review.author}
-                reviewId={review.id}
-              />
-            );
-          })}
+          {isReviewLoading || isReviewError ? (
+            <>
+              <span className="text-6xl">😟</span> <br />
+              <span>
+                Something went wrong. <br /> Please try again!!!
+              </span>
+            </>
+          ) : (
+            reviewList.data.map((review, idx) => {
+              return (
+                <EachReviewCard
+                  key={review.id}
+                  value={review.value}
+                  author={review.author}
+                  reviewId={review.id}
+                />
+              );
+            })
+          )}
         </div>
       </div>
     </div>

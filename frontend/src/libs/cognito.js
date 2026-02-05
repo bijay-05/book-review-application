@@ -5,8 +5,8 @@ import {
   CognitoUserPool,
 } from "amazon-cognito-identity-js";
 
-const userPoolId = "aws-region-xxxxx";
-const clientId = "xxx-xxxx-xxx";
+const userPoolId = "ap-south-1_kpkPT8f1Z";
+const clientId = "4nj74frc8fosafc65sfhevl4tm";
 
 console.log(`userpool id=${userPoolId}`);
 console.log(`client id=${clientId}`);
@@ -19,6 +19,7 @@ const poolData = {
 const userPool = new CognitoUserPool(poolData);
 
 let currentUser = userPool.getCurrentUser();
+console.log("This is the current user: ", currentUser);
 
 export function getCurrentUser() {
   return currentUser;

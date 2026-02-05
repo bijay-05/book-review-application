@@ -35,10 +35,10 @@ export default function HomePage() {
           return (
             <EachBookCard
               key={book.id}
-              bookId={book.id}
+              bookId={Number(book.id)}
               imgSrc="https://anamikastorage.s3.ap-south-1.amazonaws.com/books/abcd-17693-efgh.png" //{book?.imgSrc}
               bookTitle={book.title}
-              author={book.author}
+              author={book.authors}
             />
           );
         })}
