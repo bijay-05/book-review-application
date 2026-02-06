@@ -12,10 +12,10 @@ const LazyUserBookReviewPage = React.lazy(
 );
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import AuthProvider, {
-  AuthIsNotSignedIn,
-  AuthIsSignedIn,
-} from "./contexts/authContext";
+import AuthbProvider, {
+  AuthbIsNotSignedIn,
+  AuthbIsSignedIn,
+} from "./contexts/authenticationContext";
 import AddBookCard from "./components/AddBook";
 import BookAddPopup from "./components/BookAddDialog";
 
@@ -30,16 +30,16 @@ export default function App() {
             path="/"
             element={
               <>
-                <AuthProvider>
-                  <AuthIsSignedIn>
+                <AuthbProvider>
+                  <AuthbIsSignedIn>
                     <AddBookCard setShowPopup={setShowBookAddDialog} />
                     <BookAddPopup
                       showPopup={showBookAddDialog}
                       setShowPopup={setShowBookAddDialog}
                       addTodo={() => null}
                     />
-                  </AuthIsSignedIn>
-                </AuthProvider>
+                  </AuthbIsSignedIn>
+                </AuthbProvider>
                 <HomePage />
               </>
             }
@@ -48,16 +48,25 @@ export default function App() {
           <Route
             path="/details/:bookId"
             element={
-              <AuthProvider>
-                <AuthIsNotSignedIn>
+              <AuthbProvider>
+                <AuthbIsNotSignedIn>
                   <React.Suspense fallback={""}>
                     <LazyDetailsPage />
                   </React.Suspense>
-                </AuthIsNotSignedIn>
-              </AuthProvider>
+                </AuthbIsNotSignedIn>
+              </AuthbProvider>
             }
           />
-          <Route path="/login" element={<LogIn />} />
+          <Route
+            path="/login"
+            element={
+              <AuthbProvider>
+                <AuthbIsNotSignedIn>
+                  <LogIn />
+                </AuthbIsNotSignedIn>
+              </AuthbProvider>
+            }
+          />
           <Route path="/signup" element={<SignUp />} />
           <Route
             path="/profile"

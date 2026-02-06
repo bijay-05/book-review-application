@@ -1,25 +1,27 @@
 import React, { useState, useContext } from "react";
-import { useValidPassword, useValidUsername } from "../hooks/useAuthHooks";
+import { useValidPassword, useValidEmail } from "../hooks/useAuthHooks";
 import { AuthContext } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
+import { AuthbContext } from "../contexts/authenticationContext";
 
 export default function LogIn() {
-  const { username, setUsername, usernameIsValid } = useValidUsername("");
+  const { email, setEmail, emailIsValid } = useValidEmail("");
   const { password, setPassword, passwordIsValid } = useValidPassword("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const isValid =
-    !usernameIsValid ||
-    username.length === 0 ||
+    !emailIsValid ||
+    email.length === 0 ||
     !passwordIsValid ||
     password.length === 0;
 
-  const authContext = useContext(AuthContext);
+  // const authContext = useContext(AuthContext);
+  const authContext = useContext(AuthbContext);
 
   const signInClicked = async () => {
     try {
-      await authContext.signInWithEmail(username, password);
+      await authContext.signInWithEmail(email, password);
       navigate("/");
     } catch (err) {
       if (err.code === "UserNotConfirmedException") {
@@ -42,8 +44,8 @@ export default function LogIn() {
               <input
                 type="text"
                 id="email"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full border border-gray-300 rounded-md px-3 py-2"
               />
             </div>
