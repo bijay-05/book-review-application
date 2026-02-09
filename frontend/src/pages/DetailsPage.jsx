@@ -6,19 +6,25 @@ import { fetchReviews } from "../requests/fetchReviews";
 import EachReviewCard from "../components/EachReviewCard";
 
 export default function DetailsPage() {
-  const { bookId } = useParams();
+  let isReviewError = true;
+  let isReviewLoading = true;
 
+  const { bookId } = useParams();
+  console.log("This is the bookID from useParams: ", bookId);
   const {
     data: bookDetail,
     isLoading: isBookLoading,
     isError: isBookError,
   } = fetchBookDetail(bookId);
 
-  const {
-    data: reviewList,
-    isLoading: isReviewLoading,
-    isError: isReviewError,
-  } = fetchReviews();
+  // ?? -> checks only null and undefined values
+  // || -> null, undefined and falsy values
+  const reviewList = bookDetail?.reviews ?? [];
+
+  if (reviewList.length < 1) {
+    isReviewError = false;
+    isReviewLoading = false;
+  }
 
   // useEffect();
   console.log("THis is book detail: ", bookDetail);
@@ -124,7 +130,7 @@ export default function DetailsPage() {
                 <EachReviewCard
                   key={review.id}
                   value={review.value}
-                  author={review.author}
+                  author={review.user.name}
                   reviewId={review.id}
                 />
               );

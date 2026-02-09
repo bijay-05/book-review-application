@@ -12,10 +12,10 @@ const LazyUserBookReviewPage = React.lazy(
 );
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import AuthbProvider, {
-  AuthbIsNotSignedIn,
-  AuthbIsSignedIn,
-} from "./contexts/authenticationContext";
+import AuthProvider, {
+  AuthIsNotSignedIn,
+  AuthIsSignedIn,
+} from "./contexts/authContext";
 import AddBookCard from "./components/AddBook";
 import BookAddPopup from "./components/BookAddDialog";
 
@@ -30,16 +30,16 @@ export default function App() {
             path="/"
             element={
               <>
-                <AuthbProvider>
-                  <AuthbIsSignedIn>
+                <AuthProvider>
+                  <AuthIsSignedIn>
                     <AddBookCard setShowPopup={setShowBookAddDialog} />
                     <BookAddPopup
                       showPopup={showBookAddDialog}
                       setShowPopup={setShowBookAddDialog}
                       addTodo={() => null}
                     />
-                  </AuthbIsSignedIn>
-                </AuthbProvider>
+                  </AuthIsSignedIn>
+                </AuthProvider>
                 <HomePage />
               </>
             }
@@ -48,26 +48,35 @@ export default function App() {
           <Route
             path="/details/:bookId"
             element={
-              <AuthbProvider>
-                <AuthbIsNotSignedIn>
+              <AuthProvider>
+                <AuthIsNotSignedIn>
                   <React.Suspense fallback={""}>
                     <LazyDetailsPage />
                   </React.Suspense>
-                </AuthbIsNotSignedIn>
-              </AuthbProvider>
+                </AuthIsNotSignedIn>
+              </AuthProvider>
             }
           />
           <Route
             path="/login"
             element={
-              <AuthbProvider>
-                <AuthbIsNotSignedIn>
+              <AuthProvider>
+                <AuthIsNotSignedIn>
                   <LogIn />
-                </AuthbIsNotSignedIn>
-              </AuthbProvider>
+                </AuthIsNotSignedIn>
+              </AuthProvider>
             }
           />
-          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/signup"
+            element={
+              <AuthProvider>
+                <AuthIsNotSignedIn>
+                  <SignUp />
+                </AuthIsNotSignedIn>
+              </AuthProvider>
+            }
+          />
           <Route
             path="/profile"
             element={
