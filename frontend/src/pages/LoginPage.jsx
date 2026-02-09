@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { useValidPassword, useValidEmail } from "../hooks/useAuthHooks";
-import { AuthContext } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
-import { AuthbContext } from "../contexts/authenticationContext";
+import { AuthContext } from "../contexts/authContext";
 
 export default function LogIn() {
   const { email, setEmail, emailIsValid } = useValidEmail("");
@@ -17,11 +16,12 @@ export default function LogIn() {
     password.length === 0;
 
   // const authContext = useContext(AuthContext);
-  const authContext = useContext(AuthbContext);
+  const authContext = useContext(AuthContext);
 
-  const signInClicked = async () => {
+  const signInClicked = async (e) => {
+    e.preventDefault();
     try {
-      await authContext.signInWithEmail(email, password);
+      await authContext.signInWithEmail({ email, password });
       navigate("/");
     } catch (err) {
       if (err.code === "UserNotConfirmedException") {
