@@ -72,6 +72,7 @@ export class BookService {
         id: id,
       },
       select: {
+        id: true,
         title: true,
         description: true,
         authors: true,
