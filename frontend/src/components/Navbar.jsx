@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -8,10 +8,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import AuthProvider, { AuthIsSignedIn } from "../contexts/authContext";
+import LogOutPopup from "./LogOutDialog";
 
 export default function Navbar() {
   const [userProfileFlag, setUserProfileFlag] = useState(false);
-  const cartProducts = [];
+  const [logOutPopup, setLogOutPopup] = useState(false);
 
   const changeUserProfileFlag = () => {
     setUserProfileFlag(!userProfileFlag);
@@ -89,12 +90,19 @@ export default function Navbar() {
                       <span className="block w-full px-4 py-1 hover:bg-green-600 hover:text-white">
                         Settings
                       </span>
-                      <span className="block w-full px-4 py-1 hover:bg-white hover:text-red-500 font-semibold">
+                      <span
+                        className="block w-full px-4 py-1 hover:bg-white hover:text-red-500 font-semibold"
+                        onClick={() => setLogOutPopup(true)}
+                      >
                         Log Out
                       </span>
                     </div>
                   )}
                 </div>
+                <LogOutPopup
+                  setShowPopup={setLogOutPopup}
+                  showPopup={logOutPopup}
+                />
               </div>
             </AuthIsSignedIn>
           </AuthProvider>
