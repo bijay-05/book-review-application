@@ -48,6 +48,7 @@ export default function ProfilePage() {
               imgSrc="https://anamikastorage.s3.ap-south-1.amazonaws.com/books/abcd-17693-efgh.png"
               bookTitle={book.title}
               author={book.author}
+              bookId={book.id}
             />
           );
         })}
