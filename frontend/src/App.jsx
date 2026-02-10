@@ -18,6 +18,7 @@ import AuthProvider, {
 } from "./contexts/authContext";
 import AddBookCard from "./components/AddBook";
 import BookAddPopup from "./components/BookAddDialog";
+import { addNewBook } from "./requests/addBook";
 
 export default function App() {
   const [showBookAddDialog, setShowBookAddDialog] = useState(false);
@@ -36,7 +37,7 @@ export default function App() {
                     <BookAddPopup
                       showPopup={showBookAddDialog}
                       setShowPopup={setShowBookAddDialog}
-                      addTodo={() => null}
+                      addNewBook={addNewBook}
                     />
                   </AuthIsSignedIn>
                 </AuthProvider>
@@ -49,11 +50,11 @@ export default function App() {
             path="/details/:bookId"
             element={
               <AuthProvider>
-                <AuthIsNotSignedIn>
+                <AuthIsSignedIn>
                   <React.Suspense fallback={""}>
                     <LazyDetailsPage />
                   </React.Suspense>
-                </AuthIsNotSignedIn>
+                </AuthIsSignedIn>
               </AuthProvider>
             }
           />

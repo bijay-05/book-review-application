@@ -1,8 +1,10 @@
 import { FormEvent, useState } from "react";
 import { useCategoryContext } from "../contexts/categoriesContext";
+import { useQueryClient } from "@tanstack/react-query";
 
 const BookAddPopup = ({ showPopup, setShowPopup, addNewBook }) => {
   const { categories } = useCategoryContext();
+  const queryClient = useQueryClient();
 
   console.log("These are categories available: ", categories);
   const [newBook, setNewBook] = useState({
@@ -22,18 +24,26 @@ const BookAddPopup = ({ showPopup, setShowPopup, addNewBook }) => {
 
   const handleAddBook = async (e) => {
     e.preventDefault();
-    await addNewBook(newBook);
-    console.log("this is the new book: ", newBook);
+    try {
+      await addNewBook(newBook);
+      queryClient.invalidateQueries({
+        queryKey: ["books"],
+      });
+      console.log("this is the new book: ", newBook);
 
-    alert("File uploaded successfully!");
-    setShowPopup(false);
-    setNewBook({
-      title: "",
-      description: "",
-      author: "",
-      categoryId: "",
-      file: undefined,
-    });
+      // alert("File uploaded successfully!");
+      setShowPopup(false);
+      setNewBook({
+        title: "",
+        description: "",
+        author: "",
+        categoryId: "",
+        file: undefined,
+      });
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   };
 
   return showPopup ? (

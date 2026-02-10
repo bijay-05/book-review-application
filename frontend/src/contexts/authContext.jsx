@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-
-import * as cognito from "../libs/cognito";
 import { userLogin } from "../requests/authLogin";
 
 export const AuthStatus = {
@@ -61,14 +59,14 @@ const AuthProvider = ({ children }) => {
 
   async function signUpWithEmail(username, email, password) {
     try {
-      await cognito.signUpUserWithEmail(username, email, password);
+      // await cognito.signUpUserWithEmail(username, email, password);
     } catch (err) {
       throw err;
     }
   }
 
   function signOut() {
-    cognito.signOut();
+    window.localStorage.clear();
     setAuthStatus(AuthStatus.SignedOut);
   }
 

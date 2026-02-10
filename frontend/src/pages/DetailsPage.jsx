@@ -2,15 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { StatusCode } from "../utils/StateStatusThunk";
 import { fetchBookDetail } from "../requests/fetchBooks";
-import { fetchReviews } from "../requests/fetchReviews";
 import EachReviewCard from "../components/EachReviewCard";
+import ReviewAddPopup from "../components/ReviewAddDialog";
 
 export default function DetailsPage() {
-  let isReviewError = true;
-  let isReviewLoading = true;
-
   const { bookId } = useParams();
-  console.log("This is the bookID from useParams: ", bookId);
+  const [showReviewPopup, setShowReviewPopup] = useState(false);
+
   const {
     data: bookDetail,
     isLoading: isBookLoading,
@@ -21,13 +19,8 @@ export default function DetailsPage() {
   // || -> null, undefined and falsy values
   const reviewList = bookDetail?.reviews ?? [];
 
-  if (reviewList.length < 1) {
-    isReviewError = false;
-    isReviewLoading = false;
-  }
-
   // useEffect();
-  console.log("THis is book detail: ", bookDetail);
+  // console.log("THis is book detail: ", bookDetail);
 
   if (isBookLoading) {
     return (
@@ -49,83 +42,55 @@ export default function DetailsPage() {
   }
 
   return (
-    <div className="px-8 py-4 bg-red-200 space-y-8">
-      <div className="flex gap-52 justify-center">
-        <div className="flex items-center">
-          <img
-            src={bookDetail?.imgSrc}
-            alt={`Book: ${bookId}`}
-            className="max-h-[300px] max-w-[300px] object-contain"
-          />
-        </div>
-        <div className="max-w-[400px] flex flex-col gap-2">
-          <div>
-            <span className="text-2xl font-semibold">{bookDetail?.title}</span>
+    <>
+      <div className="px-8 py-4 bg-red-200 space-y-8">
+        <div className="flex gap-52 justify-center">
+          <div className="flex items-center">
+            <img
+              src={
+                "https://<BUCKET_NAME>.s3.ap-south-1.amazonaws.com/books/" +
+                bookDetail?.images[0].name
+              }
+              alt={`Book: ${bookId}`}
+              className="max-h-[300px] max-w-[300px] object-contain"
+            />
           </div>
-          <div>
-            <span className="font-bold text-4xl">
-              Title: {bookDetail.title}
-            </span>
-          </div>
-          <div className="text-l">
-            <span className="font-semibold">Description:</span> <br />
-            <span>{bookDetail?.description}</span>
-          </div>
-          <div className="text-center font-bold">
-            <span>Author/s: {bookDetail.author}</span>
-          </div>
-          <div className="flex gap-4 justify-center items-center">
+          <div className="max-w-[400px] flex flex-col gap-2">
             <div>
-              <button
-                className="px-2 py-1 border border-black"
-                onClick={() => {
-                  if (quantity <= 1) {
-                    return;
-                  }
-                  setQuantity((prev) => prev - 1);
-                }}
-              >
-                -
-              </button>
-              <span className="px-2">
-                CategoryID:{" "}
-                <span className="font-bold">{bookDetail.categoryId}</span>
+              <span className="text-2xl font-semibold">
+                {bookDetail?.title}
               </span>
-              <button
-                className="px-2 py-1 border border-black"
-                onClick={() => {
-                  setQuantity((prev) => prev + 1);
-                }}
-              >
-                +
-              </button>
             </div>
             <div>
-              <button
-                className="px-4 py-1 border-2 border-black rounded-md hover:bg-black hover:text-white"
-                onClick={() => {
-                  // dispatch(addToCart({ bookDetail, quantity }));
-                  alert("Added to cart");
-                }}
-              >
-                Add to Cart
-              </button>
+              <span className="font-bold text-4xl">
+                Title: {bookDetail.title}
+              </span>
+            </div>
+            <div className="text-l">
+              <span className="font-semibold">Description:</span> <br />
+              <span>{bookDetail?.description}</span>
+            </div>
+            <div className="text-center font-bold">
+              <span>Author/s: {bookDetail.authors[0]}</span>
+            </div>
+            <div className="flex gap-4 justify-center items-center">
+              <div>
+                <button
+                  className="px-4 py-1 border-2 border-black rounded-md hover:bg-black hover:text-white"
+                  onClick={() => {
+                    setShowReviewPopup(true);
+                  }}
+                >
+                  Add Review
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="border-2 min-h-full bg-yellow-200 flex flex-col justify-center">
-        <div className="text-3xl">Reviews</div>
-        <div className="border-2 ">
-          {isReviewLoading || isReviewError ? (
-            <>
-              <span className="text-6xl">😟</span> <br />
-              <span>
-                Something went wrong. <br /> Please try again!!!
-              </span>
-            </>
-          ) : (
-            reviewList.data.map((review, idx) => {
+        <div className="border-2 min-h-full bg-yellow-200 flex flex-col justify-center">
+          <div className="text-3xl">Reviews</div>
+          <div className="border-2 ">
+            {reviewList.map((review, idx) => {
               return (
                 <EachReviewCard
                   key={review.id}
@@ -134,10 +99,15 @@ export default function DetailsPage() {
                   reviewId={review.id}
                 />
               );
-            })
-          )}
+            })}
+          </div>
         </div>
       </div>
-    </div>
+      <ReviewAddPopup
+        bookId={bookId}
+        showPopup={showReviewPopup}
+        setShowPopup={setShowReviewPopup}
+      />
+    </>
   );
 }
