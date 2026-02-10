@@ -18,3 +18,21 @@ export const userLogin = async ({ email, password }) => {
     throw err;
   }
 };
+
+export const sessionVerify = async (accessToken) => {
+  try {
+    const response = await api.get("/auth/session", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (response.data.statusCode == 200) {
+      return true;
+    }
+    return false;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

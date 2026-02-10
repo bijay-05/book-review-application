@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { userLogin } from "../requests/authLogin";
+import { sessionVerify, userLogin } from "../requests/authLogin";
 
 export const AuthStatus = {
   Loading: "Loading",
@@ -76,7 +76,12 @@ const AuthProvider = ({ children }) => {
       if (!token) {
         return false;
       }
-      return true;
+      const tokenStatus = await sessionVerify(token);
+      if (tokenStatus) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (err) {
       throw err;
     }
