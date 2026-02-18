@@ -1,0 +1,108 @@
+import { useState, useContext } from "react";
+import {
+  useValidEmail,
+  useValidPassword,
+  useValidUsername,
+} from "../hooks/useAuthHooks";
+import { AuthContext } from "../contexts/authContext";
+import { useNavigate } from "react-router-dom";
+
+export default function SignUp() {
+  const { username, setUsername, usernameIsValid } = useValidUsername("");
+  const { password, setPassword, passwordIsValid } = useValidPassword("");
+  const { email, setEmail } = useValidEmail("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const isValid =
+    !usernameIsValid ||
+    username.length === 0 ||
+    !passwordIsValid ||
+    password.length === 0;
+
+  const authContext = useContext(AuthContext);
+
+  const signUpClicked = async () => {
+    try {
+      await authContext?.signUpWithEmail(username, email, password);
+      navigate("/login");
+    } catch (error) {
+      const err = error as any;
+      if (err.code === "UserNotConfirmedException") {
+        console.log("Error: in  UserNotConfirmedException");
+      } else {
+        setError(err.message);
+      }
+    }
+  };
+
+  return (
+    <>
+      <div className="w-fit mx-auto">
+        <div className="p-8 m-8 rounded-md shadow-md  bg-violet-300">
+          <form onSubmit={signUpClicked}>
+            <div className="mb-4">
+              <label
+                htmlFor="email"
+                className="block text-sm font-bold mb-2"
+              >
+                Email:
+              </label>
+              <input
+                type="text"
+                id="email"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="email"
+                className="block text-sm font-bold mb-2"
+              >
+                Email:
+              </label>
+              <input
+                type="text"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-bold mb-2"
+              >
+                Password:
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2"
+              />
+            </div>
+            <div className="flex justify-center gap-4 w-[20]">
+              <button
+                onClick={() => navigate("/")}
+                className="border-2 px-4 py-2 rounded-md bg-red-600 text-white text-xl"
+              >
+                Cancel
+              </button>
+              <button
+                disabled={isValid}
+                className="border-2 px-4 py-2 rounded-md bg-blue-600 text-white text-xl hover:bg-green-600"
+              >
+                Sign Up
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+}
