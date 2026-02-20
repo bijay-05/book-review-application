@@ -1,12 +1,24 @@
-FROM node:24-alpine
+FROM node:24-alpine AS base
 
-# Create app directory
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN  npm install -g @nestjs/cli@11 && npm ci
+RUN npm ci
+
+FROM base AS build
 
 COPY . .
 
-CMD npm run start:dev
+RUN npm run build
+
+FROM node:24-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+COPY --from=build /app/dist .
+
+RUN apk add --no-cache curl && npm install -g @nestjs/cli@11 && npm install --prod
+
+CMD npm run start
