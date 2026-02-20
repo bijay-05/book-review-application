@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, type FormEvent } from "react";
 import {
   useValidEmail,
   useValidPassword,
@@ -22,9 +22,11 @@ export default function SignUp() {
 
   const authContext = useContext(AuthContext);
 
-  const signUpClicked = async () => {
+  const signUpClicked = async (e: FormEvent) => {
     try {
-      await authContext?.signUpWithEmail(username, email, password);
+      e.preventDefault();
+      console.log("Sign up Clicked in the page");
+      await authContext?.signUpWithEmail(email, username, password);
       navigate("/login");
     } catch (error) {
       const err = error as any;
@@ -42,11 +44,8 @@ export default function SignUp() {
         <div className="p-8 m-8 rounded-md shadow-md  bg-violet-300">
           <form onSubmit={signUpClicked}>
             <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-sm font-bold mb-2"
-              >
-                Email:
+              <label htmlFor="email" className="block text-sm font-bold mb-2">
+                Username:
               </label>
               <input
                 type="text"
@@ -57,10 +56,7 @@ export default function SignUp() {
               />
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-sm font-bold mb-2"
-              >
+              <label htmlFor="email" className="block text-sm font-bold mb-2">
                 Email:
               </label>
               <input

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { sessionVerify, userLogin } from "../requests/authLogin.js";
+import { userSignUp } from "../requests/addUser.js";
 
 export const AuthStatus = {
   Loading: "Loading",
@@ -73,12 +74,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   async function signUpWithEmail(
-    username: string,
     email: string,
+    name: string,
     password: string,
   ) {
     try {
-      // await cognito.signUpUserWithEmail(username, email, password);
+      const status = await userSignUp({ email, name, password });
+
+      if (status) {
+        alert("Sign Up successful. Please Login now.");
+      }
     } catch (err) {
       throw err;
     }
