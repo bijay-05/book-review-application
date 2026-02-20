@@ -40,12 +40,12 @@ export default function ProfilePage() {
           Your Review Collection
         </button>
       </div>
-      <div className="min-h-screen px-8 py-4 flex gap-4 flex-wrap justify-center">
+      <div className="px-8 py-4 flex gap-4 flex-wrap justify-center">
         {books?.data?.map((book: any) => {
           return (
             <EachBookCard
               key={book.id}
-              imgSrc="https://anamikastorage.s3.ap-south-1.amazonaws.com/books/abcd-17693-efgh.png"
+              imgSrc={`https://anamikastorage.s3.ap-south-1.amazonaws.com/books/${book.images[0].name}`}
               bookTitle={book.title}
               author={book.author}
               bookId={book.id}

@@ -29,7 +29,7 @@ const ReviewAddPopup = ({
     try {
       await addNewReview(newReview);
       queryClient.invalidateQueries({
-        queryKey: ["reviews"],
+        queryKey: ["bookDetail"],
       });
 
       setShowPopup(false);
@@ -49,10 +49,7 @@ const ReviewAddPopup = ({
         <h2 className="text-2xl font-bold mb-4">Add Review</h2>
         <form onSubmit={handleAddReview}>
           <div className="mb-4">
-            <label
-              htmlFor="review"
-              className="block text-sm font-bold mb-2"
-            >
+            <label htmlFor="review" className="block text-sm font-bold mb-2">
               Review:
             </label>
             <textarea

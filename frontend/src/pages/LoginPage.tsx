@@ -23,6 +23,7 @@ export default function LogIn() {
     try {
       await authContext?.signInWithEmail(email, password);
       navigate("/");
+      window.location.reload();
     } catch (error) {
       const err = error as any;
       if (err.code === "UserNotConfirmedException") {
@@ -39,10 +40,7 @@ export default function LogIn() {
         <div className="p-8 m-8 rounded-md shadow-md  bg-green-200">
           <form onSubmit={signInClicked}>
             <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-sm font-bold mb-2"
-              >
+              <label htmlFor="email" className="block text-sm font-bold mb-2">
                 Email:
               </label>
               <input
