@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import * as yup from "yup";
+
 export const useValidEmail = (initialValue: string) => {
   const [email, setEmail] = useState(initialValue);
   const [emailIsValid, setEmailIsValid] = useState(true);
@@ -16,6 +17,7 @@ export const useValidEmail = (initialValue: string) => {
   }, [email]);
   return { email, setEmail, emailIsValid };
 };
+
 export const useValidPassword = (initialValue: string) => {
   const [password, setPassword] = useState(initialValue);
   const [passwordIsValid, setPasswordIsValid] = useState(true);
@@ -32,6 +34,7 @@ export const useValidPassword = (initialValue: string) => {
   }, [password]);
   return { password, setPassword, passwordIsValid };
 };
+
 export const useValidUsername = (initialValue: string) => {
   const [username, setUsername] = useState(initialValue);
   const [usernameIsValid, setUsernameIsValid] = useState(true);
@@ -48,6 +51,7 @@ export const useValidUsername = (initialValue: string) => {
   }, [username]);
   return { username, setUsername, usernameIsValid };
 };
+
 export const useValidCode = (initialValue: string) => {
   const [code, setCode] = useState(initialValue);
   const [codeIsValid, setCodeIsValid] = useState(true);

@@ -7,7 +7,6 @@ export default function HomePage() {
     isLoading: isBookLoading,
     isError: isBookError,
   } = fetchBooks();
-  console.log("These are the fetched books: ", books);
 
   if (isBookLoading) {
     return (
