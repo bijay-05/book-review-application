@@ -5,3 +5,14 @@ export interface ICreateReview {
   bookId: number;
   userId: number;
 }
+
+interface IBookTitle {
+  title: string;
+}
+
+export interface IReviewByUserList {
+  id: number;
+  value: string;
+  createdAt: Date;
+  book: IBookTitle;
+}

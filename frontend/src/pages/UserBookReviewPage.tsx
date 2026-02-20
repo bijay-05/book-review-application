@@ -47,7 +47,7 @@ export default function ProfilePage() {
               key={review.id}
               reviewId={review.id}
               value={review.value}
-              author={review.author}
+              author={review.book.title}
             />
           );
         })}

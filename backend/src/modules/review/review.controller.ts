@@ -12,6 +12,7 @@ import {
   GetUser,
   UserProtected,
 } from "src/common/auth/decorators/auth.decorator";
+import { IReviewByUserList } from "./interfaces/review.interface";
 
 @Controller("review")
 export class ReviewController {
@@ -37,7 +38,7 @@ export class ReviewController {
   @ResponseMessage("Review list retrieved successfully")
   async getReviewByUser(
     @GetUser() authUser: IAuthUser,
-  ): Promise<IResponsePaging<Review>> {
+  ): Promise<IResponsePaging<IReviewByUserList>> {
     const data = await this.reviewService.getReviewListByUser(
       Number(authUser.id),
     );

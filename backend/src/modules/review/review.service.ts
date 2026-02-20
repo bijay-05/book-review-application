@@ -7,7 +7,10 @@ import {
 import { PrismaClient, Review } from "prisma/prisma/client";
 import { PRISMA_CLIENT } from "src/common/prisma/prisma.constant";
 import { ICreateBook } from "../book/interfaces/book.interface";
-import { ICreateReview } from "./interfaces/review.interface";
+import {
+  ICreateReview,
+  IReviewByUserList,
+} from "./interfaces/review.interface";
 
 @Injectable()
 export class ReviewService {
@@ -30,10 +33,20 @@ export class ReviewService {
     return createdData;
   }
 
-  async getReviewListByUser(userId: number): Promise<Review[]> {
+  async getReviewListByUser(userId: number): Promise<IReviewByUserList[]> {
     const data = await this.prismaClient.review.findMany({
       where: {
         userId: userId,
+      },
+      select: {
+        id: true,
+        value: true,
+        createdAt: true,
+        book: {
+          select: {
+            title: true,
+          },
+        },
       },
     });
 
