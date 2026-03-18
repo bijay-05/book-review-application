@@ -5,6 +5,8 @@ import { ErrorModule } from "./error/error.module";
 import { LoggerModule } from "./logger/logger.module";
 import { DebuggerModule } from "./debugger/debugger.module";
 import { AuthModule } from "./auth/auth.module";
+import { RequestModule } from "./request/request.module";
+import { MetricsModule } from "./metrics/metrics.module";
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { AuthModule } from "./auth/auth.module";
     DebuggerModule,
     PrismaModule,
     ResponseModule,
+    RequestModule,
+    MetricsModule,
   ],
 })
 export class CommonModule {}
