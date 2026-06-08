@@ -1,5 +1,6 @@
 import { registerAs } from "@nestjs/config";
 import { seconds } from "../helper/helper";
+import { StringValue } from "ms";
 
 export default registerAs(
   "auth",
@@ -7,7 +8,7 @@ export default registerAs(
     accessToken: {
       secretKey: process.env.AUTH_JWT_ACCESS_TOKEN_SECRET_KEY,
       expirationTime: seconds(
-        process.env.AUTH_JWT_ACCESS_TOKEN_EXPIRED || "8h",
+        (process.env.AUTH_JWT_ACCESS_TOKEN_EXPIRED || "8h") as StringValue,
       ),
       // notBeforeExpirationTime: seconds("0"),
     },
