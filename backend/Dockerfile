@@ -19,6 +19,9 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 COPY --from=build /app/dist ./dist
 
-RUN apk add --no-cache curl && npm install -g @nestjs/cli@11 && npm install --prod
+# RUN apk add --no-cache curl && npm install -g @nestjs/cli@11 && npm install --prod
+RUN apk add --no-cache curl && npm install --prod
 
-CMD npm run start:prod
+EXPOSE 3001
+
+CMD node dist/src/main.js
