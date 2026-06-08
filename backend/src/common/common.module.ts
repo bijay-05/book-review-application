@@ -7,7 +7,7 @@ import { DebuggerModule } from "./debugger/debugger.module";
 import { AuthModule } from "./auth/auth.module";
 import { RequestModule } from "./request/request.module";
 import { MetricsModule } from "./metrics/metrics.module";
-import Joi from "joi";
+import * as Joi from "joi";
 import configs from "./configs";
 import { ConfigModule } from "@nestjs/config";
 import { ENUM_APP_ENVIRONMENT } from "./constants/app.constant";
