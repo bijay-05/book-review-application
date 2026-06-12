@@ -8,4 +8,6 @@ RUN apk add --no-cache curl && npm install -g @nestjs/cli@11 && npm ci
 
 COPY . .
 
+EXPOSE 3001
+
 CMD npx prisma migrate deploy && npm run start:dev
