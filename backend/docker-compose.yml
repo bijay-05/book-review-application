@@ -7,8 +7,8 @@ volumes:
     name: database-pg-data
 
 services:
-  postgres_database:
-    container_name: postgres_container
+  db:
+    container_name: db_container
     image: "postgres:16-bookworm"
     environment:
       POSTGRES_USER: "${DATABASE_USERNAME}"
@@ -31,9 +31,9 @@ services:
       start_period: 30s
       timeout: 10s
 
-  backend_api:
+  api:
     container_name: api_container
-    image: review-api:prod
+    image: review-api:v4
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     env_file:
       - ./.env.production
@@ -46,7 +46,7 @@ services:
     ports:
       - "3001:3001"
     depends_on:
-      postgres_database:
+      db:
         condition: service_healthy
     networks:
       - prod_net
