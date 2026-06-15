@@ -121,7 +121,7 @@ export class BookService {
     });
 
     if (books.length < 1) {
-      throw new BadRequestException("Books not found");
+      throw new NotFoundException("Books not found");
     }
 
     return books;
