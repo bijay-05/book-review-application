@@ -1,0 +1,46 @@
+name: S3 static site deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - frontend/**
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      S3_BUCKET: ${{ secrets.S3_BUCKET }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Install dependencies
+        run: cd frontend && npm install
+
+      - name: Build
+        run: cd frontend && npm run build
+
+      - id: install-aws-cli
+        uses: unfor19/install-aws-cli-action@e8b481e524a99f37fbd39fdc1dcb3341ab091367
+        with:
+          version: 2 # default
+          verbose: false # default
+          arch: amd64 # allowed values: amd64, x86, x64, arm, arm64
+
+      - name: save secrets to aws credentials
+        run: |
+          mkdir ~/.aws && touch ~/.aws/credentials
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ~/.aws/credentials
+          echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
+
+      - name: Verify access to AWS
+        run: aws sts get-caller-identity
+
+      - name: Push Code to bucket
+        run: cd frontend && aws s3 cp dist/ s3://$S3_BUCKET --recursive
