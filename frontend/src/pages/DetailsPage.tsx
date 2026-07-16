@@ -73,6 +73,12 @@ export default function DetailsPage() {
             <div className="font-bold text-lg">
               Author/s : {(bookDetail.authors ?? []).join(", ")}
             </div>
+            <div className="font-bold text-lg">
+              Rating :{" "}
+              <span className="text-4xl text-yellow-500">
+                {Array.from({ length: 4 }, (_, idx) => "⭐")}
+              </span>
+            </div>
             <div className="flex gap-4 justify-center md:justify-start items-center pt-2">
               <button
                 className="px-6 py-2 border-2 border-black bg-green-300 rounded-md hover:bg-green-700 hover:text-white transition-colors duration-200"
@@ -101,6 +107,7 @@ export default function DetailsPage() {
                   value={review.value}
                   author={review.user.name}
                   reviewId={review.id}
+                  rating={review.rating}
                 />
               );
             })}

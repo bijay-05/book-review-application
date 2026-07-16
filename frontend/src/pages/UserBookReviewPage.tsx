@@ -48,6 +48,7 @@ export default function ProfilePage() {
               reviewId={review.id}
               value={review.value}
               author={review.book.title}
+              rating={review.rating}
             />
           );
         })}

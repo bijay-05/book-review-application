@@ -11,6 +11,7 @@ interface IReviewAddPopupProps {
 interface IReview {
   value: string;
   bookId: number | null;
+  rating: number | undefined;
 }
 
 const ReviewAddPopup = ({
@@ -21,6 +22,7 @@ const ReviewAddPopup = ({
   const [newReview, setNewReview] = useState<IReview>({
     value: "",
     bookId: bookId,
+    rating: 0,
   });
   const queryClient = useQueryClient();
 
@@ -28,14 +30,21 @@ const ReviewAddPopup = ({
     e.preventDefault();
     try {
       await addNewReview(newReview);
+      // queryClient.invalidateQueries({
+      //   queryKey: ["bookDetail"],
+      // });
       queryClient.invalidateQueries({
-        queryKey: ["bookDetail"],
+        predicate: (query) =>
+          query.queryKey.every((key) =>
+            ["bookDetail", "rating"].includes(key as string),
+          ),
       });
 
       setShowPopup(false);
       setNewReview({
-        bookId: null,
+        bookId: bookId,
         value: "",
+        rating: 0,
       });
     } catch (err) {
       console.error(err);
@@ -48,6 +57,23 @@ const ReviewAddPopup = ({
       <div className="bg-white p-8 rounded-md shadow-md">
         <h2 className="text-2xl font-bold mb-4">Add Review</h2>
         <form onSubmit={handleAddReview}>
+          <div>
+            <span className="text-red-500 text-2xl">Add Rating </span>
+            {Array.from({ length: 5 }, (_, idx) => (
+              <button
+                className={
+                  newReview.rating! > idx
+                    ? "text-yellow-300 text-3xl"
+                    : "text-gray-300 text-3xl"
+                }
+                type="button"
+                key={idx}
+                onClick={() => setNewReview({ ...newReview, rating: idx + 1 })}
+              >
+                ★
+              </button>
+            ))}
+          </div>
           <div className="mb-4">
             <label htmlFor="review" className="block text-sm font-bold mb-2">
               Review:

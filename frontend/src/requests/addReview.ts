@@ -5,15 +5,18 @@ const accessToken = window.localStorage.getItem("accessToken");
 export const addNewReview = async ({
   value,
   bookId,
+  rating,
 }: {
   value: string;
   bookId: number | null;
+  rating?: number;
 }) => {
   const response = await api.post(
     "/review",
     {
       value: value,
       bookId: Number(bookId),
+      rating: rating,
     },
     {
       headers: {
