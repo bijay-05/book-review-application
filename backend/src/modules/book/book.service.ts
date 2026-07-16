@@ -90,6 +90,7 @@ export class BookService {
             },
             value: true,
             createdAt: true,
+            rating: true,
           },
         },
       },

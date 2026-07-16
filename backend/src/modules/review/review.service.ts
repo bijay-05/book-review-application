@@ -6,7 +6,6 @@ import {
 } from "@nestjs/common";
 import { PrismaClient, Review } from "prisma/prisma/client";
 import { PRISMA_CLIENT } from "src/common/prisma/prisma.constant";
-import { ICreateBook } from "../book/interfaces/book.interface";
 import {
   ICreateReview,
   IReviewByUserList,
@@ -27,6 +26,7 @@ export class ReviewService {
         value: createDto.value,
         userId: createDto.userId,
         bookId: createDto.bookId,
+        rating: createDto?.rating,
       },
     });
 
@@ -47,6 +47,7 @@ export class ReviewService {
             title: true,
           },
         },
+        rating: true,
       },
     });
 

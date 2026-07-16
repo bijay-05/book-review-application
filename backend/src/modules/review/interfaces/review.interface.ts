@@ -4,6 +4,7 @@ export interface ICreateReview {
   value: string;
   bookId: number;
   userId: number;
+  rating?: number;
 }
 
 interface IBookTitle {
@@ -15,4 +16,5 @@ export interface IReviewByUserList {
   value: string;
   createdAt: Date;
   book: IBookTitle;
+  rating: number;
 }

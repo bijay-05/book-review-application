@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsPositive, IsString } from "class-validator";
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from "class-validator";
 import { ICreateReview } from "../interfaces/review.interface";
 
 export class ReviewCreateDto implements ICreateReview {
@@ -9,6 +15,10 @@ export class ReviewCreateDto implements ICreateReview {
   @IsPositive()
   @IsNotEmpty()
   bookId: number;
+
+  @IsNumber()
+  @IsOptional()
+  rating?: number;
 
   userId: number;
 }
