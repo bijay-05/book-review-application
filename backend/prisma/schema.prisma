@@ -30,7 +30,6 @@ model Book {
   userId Int
   user User @relation(fields: [userId], references: [id])
   reviews Review[]
-  ratings Rating[]
 }
 
 model User {
@@ -41,23 +40,13 @@ model User {
   name String
   books Book[]
   reviews Review[]
-  ratings Rating[]
 }
 
 model Review {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   value String
-  bookId Int
-  userId Int
-  book Book @relation(fields: [bookId], references: [id])
-  user User @relation(fields: [userId], references: [id])
-}
-
-model Rating {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  value Int
+  rating Int @default(0)
   bookId Int
   userId Int
   book Book @relation(fields: [bookId], references: [id])

@@ -227,7 +227,6 @@ export type BookWhereInput = {
   images?: Prisma.FileListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reviews?: Prisma.ReviewListRelationFilter
-  ratings?: Prisma.RatingListRelationFilter
 }
 
 export type BookOrderByWithRelationInput = {
@@ -240,7 +239,6 @@ export type BookOrderByWithRelationInput = {
   images?: Prisma.FileOrderByRelationAggregateInput
   user?: Prisma.UserOrderByWithRelationInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
-  ratings?: Prisma.RatingOrderByRelationAggregateInput
 }
 
 export type BookWhereUniqueInput = Prisma.AtLeast<{
@@ -256,7 +254,6 @@ export type BookWhereUniqueInput = Prisma.AtLeast<{
   images?: Prisma.FileListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reviews?: Prisma.ReviewListRelationFilter
-  ratings?: Prisma.RatingListRelationFilter
 }, "id">
 
 export type BookOrderByWithAggregationInput = {
@@ -293,7 +290,6 @@ export type BookCreateInput = {
   images?: Prisma.FileCreateNestedManyWithoutBookInput
   user: Prisma.UserCreateNestedOneWithoutBooksInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
-  ratings?: Prisma.RatingCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateInput = {
@@ -305,7 +301,6 @@ export type BookUncheckedCreateInput = {
   userId: number
   images?: Prisma.FileUncheckedCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
-  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookUpdateInput = {
@@ -316,7 +311,6 @@ export type BookUpdateInput = {
   images?: Prisma.FileUpdateManyWithoutBookNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutBooksNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
-  ratings?: Prisma.RatingUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateInput = {
@@ -328,7 +322,6 @@ export type BookUncheckedUpdateInput = {
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.FileUncheckedUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
-  ratings?: Prisma.RatingUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateManyInput = {
@@ -497,20 +490,6 @@ export type BookUpdateOneRequiredWithoutReviewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BookUpdateToOneWithWhereWithoutReviewsInput, Prisma.BookUpdateWithoutReviewsInput>, Prisma.BookUncheckedUpdateWithoutReviewsInput>
 }
 
-export type BookCreateNestedOneWithoutRatingsInput = {
-  create?: Prisma.XOR<Prisma.BookCreateWithoutRatingsInput, Prisma.BookUncheckedCreateWithoutRatingsInput>
-  connectOrCreate?: Prisma.BookCreateOrConnectWithoutRatingsInput
-  connect?: Prisma.BookWhereUniqueInput
-}
-
-export type BookUpdateOneRequiredWithoutRatingsNestedInput = {
-  create?: Prisma.XOR<Prisma.BookCreateWithoutRatingsInput, Prisma.BookUncheckedCreateWithoutRatingsInput>
-  connectOrCreate?: Prisma.BookCreateOrConnectWithoutRatingsInput
-  upsert?: Prisma.BookUpsertWithoutRatingsInput
-  connect?: Prisma.BookWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.BookUpdateToOneWithWhereWithoutRatingsInput, Prisma.BookUpdateWithoutRatingsInput>, Prisma.BookUncheckedUpdateWithoutRatingsInput>
-}
-
 export type BookCreateWithoutImagesInput = {
   createdAt?: Date | string
   title: string
@@ -518,7 +497,6 @@ export type BookCreateWithoutImagesInput = {
   authors?: Prisma.BookCreateauthorsInput | string[]
   user: Prisma.UserCreateNestedOneWithoutBooksInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
-  ratings?: Prisma.RatingCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutImagesInput = {
@@ -529,7 +507,6 @@ export type BookUncheckedCreateWithoutImagesInput = {
   authors?: Prisma.BookCreateauthorsInput | string[]
   userId: number
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
-  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutImagesInput = {
@@ -555,7 +532,6 @@ export type BookUpdateWithoutImagesInput = {
   authors?: Prisma.BookUpdateauthorsInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutBooksNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
-  ratings?: Prisma.RatingUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutImagesInput = {
@@ -566,7 +542,6 @@ export type BookUncheckedUpdateWithoutImagesInput = {
   authors?: Prisma.BookUpdateauthorsInput | string[]
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
-  ratings?: Prisma.RatingUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateWithoutUserInput = {
@@ -576,7 +551,6 @@ export type BookCreateWithoutUserInput = {
   authors?: Prisma.BookCreateauthorsInput | string[]
   images?: Prisma.FileCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
-  ratings?: Prisma.RatingCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutUserInput = {
@@ -587,7 +561,6 @@ export type BookUncheckedCreateWithoutUserInput = {
   authors?: Prisma.BookCreateauthorsInput | string[]
   images?: Prisma.FileUncheckedCreateNestedManyWithoutBookInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
-  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutUserInput = {
@@ -635,7 +608,6 @@ export type BookCreateWithoutReviewsInput = {
   authors?: Prisma.BookCreateauthorsInput | string[]
   images?: Prisma.FileCreateNestedManyWithoutBookInput
   user: Prisma.UserCreateNestedOneWithoutBooksInput
-  ratings?: Prisma.RatingCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutReviewsInput = {
@@ -646,7 +618,6 @@ export type BookUncheckedCreateWithoutReviewsInput = {
   authors?: Prisma.BookCreateauthorsInput | string[]
   userId: number
   images?: Prisma.FileUncheckedCreateNestedManyWithoutBookInput
-  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutReviewsInput = {
@@ -672,7 +643,6 @@ export type BookUpdateWithoutReviewsInput = {
   authors?: Prisma.BookUpdateauthorsInput | string[]
   images?: Prisma.FileUpdateManyWithoutBookNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutBooksNestedInput
-  ratings?: Prisma.RatingUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutReviewsInput = {
@@ -683,65 +653,6 @@ export type BookUncheckedUpdateWithoutReviewsInput = {
   authors?: Prisma.BookUpdateauthorsInput | string[]
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.FileUncheckedUpdateManyWithoutBookNestedInput
-  ratings?: Prisma.RatingUncheckedUpdateManyWithoutBookNestedInput
-}
-
-export type BookCreateWithoutRatingsInput = {
-  createdAt?: Date | string
-  title: string
-  description: string
-  authors?: Prisma.BookCreateauthorsInput | string[]
-  images?: Prisma.FileCreateNestedManyWithoutBookInput
-  user: Prisma.UserCreateNestedOneWithoutBooksInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutBookInput
-}
-
-export type BookUncheckedCreateWithoutRatingsInput = {
-  id?: number
-  createdAt?: Date | string
-  title: string
-  description: string
-  authors?: Prisma.BookCreateauthorsInput | string[]
-  userId: number
-  images?: Prisma.FileUncheckedCreateNestedManyWithoutBookInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutBookInput
-}
-
-export type BookCreateOrConnectWithoutRatingsInput = {
-  where: Prisma.BookWhereUniqueInput
-  create: Prisma.XOR<Prisma.BookCreateWithoutRatingsInput, Prisma.BookUncheckedCreateWithoutRatingsInput>
-}
-
-export type BookUpsertWithoutRatingsInput = {
-  update: Prisma.XOR<Prisma.BookUpdateWithoutRatingsInput, Prisma.BookUncheckedUpdateWithoutRatingsInput>
-  create: Prisma.XOR<Prisma.BookCreateWithoutRatingsInput, Prisma.BookUncheckedCreateWithoutRatingsInput>
-  where?: Prisma.BookWhereInput
-}
-
-export type BookUpdateToOneWithWhereWithoutRatingsInput = {
-  where?: Prisma.BookWhereInput
-  data: Prisma.XOR<Prisma.BookUpdateWithoutRatingsInput, Prisma.BookUncheckedUpdateWithoutRatingsInput>
-}
-
-export type BookUpdateWithoutRatingsInput = {
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  authors?: Prisma.BookUpdateauthorsInput | string[]
-  images?: Prisma.FileUpdateManyWithoutBookNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutBooksNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
-}
-
-export type BookUncheckedUpdateWithoutRatingsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  authors?: Prisma.BookUpdateauthorsInput | string[]
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  images?: Prisma.FileUncheckedUpdateManyWithoutBookNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateManyUserInput = {
@@ -759,7 +670,6 @@ export type BookUpdateWithoutUserInput = {
   authors?: Prisma.BookUpdateauthorsInput | string[]
   images?: Prisma.FileUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutBookNestedInput
-  ratings?: Prisma.RatingUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutUserInput = {
@@ -770,7 +680,6 @@ export type BookUncheckedUpdateWithoutUserInput = {
   authors?: Prisma.BookUpdateauthorsInput | string[]
   images?: Prisma.FileUncheckedUpdateManyWithoutBookNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutBookNestedInput
-  ratings?: Prisma.RatingUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateManyWithoutUserInput = {
@@ -789,13 +698,11 @@ export type BookUncheckedUpdateManyWithoutUserInput = {
 export type BookCountOutputType = {
   images: number
   reviews: number
-  ratings: number
 }
 
 export type BookCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   images?: boolean | BookCountOutputTypeCountImagesArgs
   reviews?: boolean | BookCountOutputTypeCountReviewsArgs
-  ratings?: boolean | BookCountOutputTypeCountRatingsArgs
 }
 
 /**
@@ -822,13 +729,6 @@ export type BookCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.ReviewWhereInput
 }
 
-/**
- * BookCountOutputType without action
- */
-export type BookCountOutputTypeCountRatingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.RatingWhereInput
-}
-
 
 export type BookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -840,7 +740,6 @@ export type BookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   images?: boolean | Prisma.Book$imagesArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviews?: boolean | Prisma.Book$reviewsArgs<ExtArgs>
-  ratings?: boolean | Prisma.Book$ratingsArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
@@ -878,7 +777,6 @@ export type BookInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   images?: boolean | Prisma.Book$imagesArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviews?: boolean | Prisma.Book$reviewsArgs<ExtArgs>
-  ratings?: boolean | Prisma.Book$ratingsArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BookIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -894,7 +792,6 @@ export type $BookPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     images: Prisma.$FilePayload<ExtArgs>[]
     user: Prisma.$UserPayload<ExtArgs>
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
-    ratings: Prisma.$RatingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1300,7 +1197,6 @@ export interface Prisma__BookClient<T, Null = never, ExtArgs extends runtime.Typ
   images<T extends Prisma.Book$imagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   reviews<T extends Prisma.Book$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  ratings<T extends Prisma.Book$ratingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1777,30 +1673,6 @@ export type Book$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
-}
-
-/**
- * Book.ratings
- */
-export type Book$ratingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Rating
-   */
-  select?: Prisma.RatingSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Rating
-   */
-  omit?: Prisma.RatingOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.RatingInclude<ExtArgs> | null
-  where?: Prisma.RatingWhereInput
-  orderBy?: Prisma.RatingOrderByWithRelationInput | Prisma.RatingOrderByWithRelationInput[]
-  cursor?: Prisma.RatingWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.RatingScalarFieldEnum | Prisma.RatingScalarFieldEnum[]
 }
 
 /**

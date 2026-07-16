@@ -387,8 +387,7 @@ export const ModelName = {
   File: 'File',
   Book: 'Book',
   User: 'User',
-  Review: 'Review',
-  Rating: 'Rating'
+  Review: 'Review'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -404,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "file" | "book" | "user" | "review" | "rating"
+    modelProps: "file" | "book" | "user" | "review"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -704,80 +703,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Rating: {
-      payload: Prisma.$RatingPayload<ExtArgs>
-      fields: Prisma.RatingFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.RatingFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.RatingFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>
-        }
-        findFirst: {
-          args: Prisma.RatingFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.RatingFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>
-        }
-        findMany: {
-          args: Prisma.RatingFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>[]
-        }
-        create: {
-          args: Prisma.RatingCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>
-        }
-        createMany: {
-          args: Prisma.RatingCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.RatingCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>[]
-        }
-        delete: {
-          args: Prisma.RatingDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>
-        }
-        update: {
-          args: Prisma.RatingUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>
-        }
-        deleteMany: {
-          args: Prisma.RatingDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.RatingUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.RatingUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>[]
-        }
-        upsert: {
-          args: Prisma.RatingUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>
-        }
-        aggregate: {
-          args: Prisma.RatingAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateRating>
-        }
-        groupBy: {
-          args: Prisma.RatingGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RatingGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.RatingCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RatingCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -853,22 +778,12 @@ export const ReviewScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   value: 'value',
+  rating: 'rating',
   bookId: 'bookId',
   userId: 'userId'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
-
-
-export const RatingScalarFieldEnum = {
-  id: 'id',
-  createdAt: 'createdAt',
-  value: 'value',
-  bookId: 'bookId',
-  userId: 'userId'
-} as const
-
-export type RatingScalarFieldEnum = (typeof RatingScalarFieldEnum)[keyof typeof RatingScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1047,7 +962,6 @@ export type GlobalOmitConfig = {
   book?: Prisma.BookOmit
   user?: Prisma.UserOmit
   review?: Prisma.ReviewOmit
-  rating?: Prisma.RatingOmit
 }
 
 /* Types for Logging */

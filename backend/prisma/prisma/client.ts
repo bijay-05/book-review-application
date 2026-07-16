@@ -57,8 +57,3 @@ export type User = Prisma.UserModel
  * 
  */
 export type Review = Prisma.ReviewModel
-/**
- * Model Rating
- * 
- */
-export type Rating = Prisma.RatingModel

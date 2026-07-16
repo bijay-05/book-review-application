@@ -54,8 +54,7 @@ export const ModelName = {
   File: 'File',
   Book: 'Book',
   User: 'User',
-  Review: 'Review',
-  Rating: 'Rating'
+  Review: 'Review'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -110,22 +109,12 @@ export const ReviewScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   value: 'value',
+  rating: 'rating',
   bookId: 'bookId',
   userId: 'userId'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
-
-
-export const RatingScalarFieldEnum = {
-  id: 'id',
-  createdAt: 'createdAt',
-  value: 'value',
-  bookId: 'bookId',
-  userId: 'userId'
-} as const
-
-export type RatingScalarFieldEnum = (typeof RatingScalarFieldEnum)[keyof typeof RatingScalarFieldEnum]
 
 
 export const SortOrder = {
