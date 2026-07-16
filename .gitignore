@@ -10,6 +10,8 @@ package-lock.json
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
+*pem
+
 # Runtime data
 pids
 *.pid
@@ -29,6 +31,10 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 *.lcov
+
+# Ignore directories created by docker-compose-dev.yml
+dev*data/
+
 
 # nyc test coverage
 .nyc_output
