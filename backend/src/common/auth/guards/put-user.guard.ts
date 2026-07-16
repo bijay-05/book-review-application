@@ -24,8 +24,6 @@ export class PutUserGuard implements CanActivate {
 
       const userFromDb = await this.userService.getById(jwtDecodedUser.id);
 
-      console.log("Put user guard: ", userFromDb);
-
       request.__user = userFromDb;
 
       return true;
