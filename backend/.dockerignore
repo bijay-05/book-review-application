@@ -4,3 +4,4 @@ README.md
 .git
 app.log
 dist/
+.env.production
