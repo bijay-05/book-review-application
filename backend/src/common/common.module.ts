@@ -11,6 +11,7 @@ import * as Joi from "joi";
 import configs from "./configs";
 import { ConfigModule } from "@nestjs/config";
 import { ENUM_APP_ENVIRONMENT } from "./constants/app.constant";
+import { MailModule } from "./mailer/mailer.module";
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { ENUM_APP_ENVIRONMENT } from "./constants/app.constant";
     ResponseModule,
     RequestModule,
     MetricsModule,
+    MailModule,
   ],
 })
 export class CommonModule {}
