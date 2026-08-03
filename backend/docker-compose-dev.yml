@@ -33,7 +33,7 @@ services:
 
   api:
     container_name: dev_api_container
-    image: review-api:dev2
+    image: review-api:dev
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     env_file:
       - ./.env
