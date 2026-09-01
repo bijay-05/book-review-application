@@ -1,11 +1,7 @@
 import { Injectable, Inject } from "@nestjs/common";
 import pino from "pino";
 import { LOGGER_CLIENT_CONNECTION } from "../logger/logger.constant";
-
-enum APP_MODE {
-  PROD = "production",
-  DEV = "development",
-}
+import { ENUM_APP_ENVIRONMENT } from "../constants/app.constant";
 
 @Injectable()
 export class DebuggerService {
@@ -14,11 +10,11 @@ export class DebuggerService {
     @Inject(LOGGER_CLIENT_CONNECTION)
     private readonly loggerService: pino.Logger,
   ) {
-    this.env = process.env.APP_MODE || APP_MODE.DEV;
+    this.env = process.env.APP_MODE || ENUM_APP_ENVIRONMENT.DEVELOPMENT;
   }
 
   log(...data: any[]) {
-    if (this.env !== APP_MODE.PROD) {
+    if (this.env !== ENUM_APP_ENVIRONMENT.PRODUCTION) {
       console.log(...data);
     }
   }
