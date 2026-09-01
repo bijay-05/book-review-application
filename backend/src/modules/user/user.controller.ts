@@ -5,6 +5,7 @@ import {
   Body,
   Param,
   SerializeOptions,
+  HttpStatus,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { UserCreateDto } from "./dtos/user.dto";
@@ -16,13 +17,27 @@ import {
   UserProtected,
 } from "src/common/auth/decorators/auth.decorator";
 import { IAuthUser } from "src/common/auth/interfaces/jwt.interface";
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiResponse,
+  ApiOperation,
+} from "@nestjs/swagger";
 
+@ApiTags("User")
 @Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
   @ResponseMessage("User created successfully")
+  @ApiOperation({
+    summary: "Crete new User",
+  })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: "User created successfully",
+  })
   async create(
     @Body() createDto: UserCreateDto,
   ): Promise<IResponse<Partial<User>>> {
@@ -35,7 +50,15 @@ export class UserController {
 
   @Get()
   @UserProtected()
+  @ApiBearerAuth("accessToken")
   @ResponseMessage("User retrieved successfully")
+  @ApiOperation({
+    summary: "Get user details",
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "User retrieved successfully",
+  })
   async getById(
     @GetUser() authUser: IAuthUser,
   ): Promise<IResponse<Partial<User>>> {
