@@ -16,7 +16,10 @@ FROM nginx:mainline-alpine-slim AS production
 
 WORKDIR /usr/share/nginx/html
 
-RUN rm -rf ./*
+RUN rm -rf ./* && mkdir /etc/nginx/sites-enabled
+
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY default-site /etc/nginx/sites-enabled/default
 
 COPY --from=build /app/dist .
 
