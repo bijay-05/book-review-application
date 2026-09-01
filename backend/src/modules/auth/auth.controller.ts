@@ -10,7 +10,7 @@ import { IAuthUser } from "src/common/auth/interfaces/jwt.interface";
 import { IResponse } from "src/common/response/interfaces/response.interface";
 
 @Controller("auth")
-export class AuthController {
+export class AuthenticationController {
   constructor(private readonly authService: AuthService) {}
 
   @Post("login")
@@ -38,5 +38,11 @@ export class AuthController {
         data: false,
       };
     }
+  }
+
+  @Post("forgot-password")
+  @ResponseMessage("Check your email")
+  async forgotPassword(): Promise<IResponse<void>> {
+    return {};
   }
 }
