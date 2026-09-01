@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from "@nestjs/common";
+import { Controller, Get, Post, Body, Param, HttpStatus } from "@nestjs/common";
 import { BookService } from "./book.service";
 import {
   IResponse,
@@ -13,14 +13,29 @@ import {
   UserProtected,
 } from "src/common/auth/decorators/auth.decorator";
 import { IAuthUser } from "src/common/auth/interfaces/jwt.interface";
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  ApiBearerAuth,
+} from "@nestjs/swagger";
 
+@ApiTags("Book")
 @Controller("book")
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Post()
   @UserProtected()
+  @ApiBearerAuth("accessToken")
   @ResponseMessage("Book created successfully")
+  @ApiOperation({
+    summary: "Create Book",
+  })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: "Book created successfully",
+  })
   async create(@Body() createDto: BookCreateDto): Promise<IResponse<Book>> {
     createDto.userId = 1;
 
@@ -33,6 +48,13 @@ export class BookController {
 
   @Get()
   @ResponseMessage("Book list retrieved successfully")
+  @ApiOperation({
+    summary: "Get book list",
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "Book list retrieved successfully",
+  })
   async getAll(): Promise<IResponsePaging<IBookList>> {
     const data = await this.bookService.getAll();
 
@@ -49,7 +71,15 @@ export class BookController {
 
   @Get("user")
   @UserProtected()
+  @ApiBearerAuth("accessToken")
   @ResponseMessage("Book list retrieved successfully")
+  @ApiOperation({
+    summary: "Get book list for user",
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "Book list retrieved successfully",
+  })
   async getByUser(
     @GetUser() authUser: IAuthUser,
   ): Promise<IResponsePaging<IUserBookList>> {
@@ -68,7 +98,15 @@ export class BookController {
 
   @Get(":id")
   @UserProtected()
+  @ApiBearerAuth("accessToken")
   @ResponseMessage("Book retrieved successfully")
+  @ApiOperation({
+    summary: "Get book details by book id",
+  })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: "Book retrieved successfully",
+  })
   async getDetailed(
     @Param("id") id: number,
   ): Promise<IResponse<Partial<Book>>> {

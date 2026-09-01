@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from "@nestjs/common";
+import { Controller, Get, Post, Body, HttpStatus } from "@nestjs/common";
 import { ReviewService } from "./review.service";
 import { ReviewCreateDto } from "./dtos/review.dto";
 import {
@@ -13,14 +13,29 @@ import {
   UserProtected,
 } from "src/common/auth/decorators/auth.decorator";
 import { IReviewByUserList } from "./interfaces/review.interface";
+import {
+  ApiTags,
+  ApiResponse,
+  ApiOperation,
+  ApiBearerAuth,
+} from "@nestjs/swagger";
 
+@ApiTags("Review")
 @Controller("review")
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
   @Post()
   @UserProtected()
+  @ApiBearerAuth("accessToken")
   @ResponseMessage("Review created successfully")
+  @ApiOperation({
+    summary: "Create review",
+  })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: "Review created successfully",
+  })
   async create(
     @Body() createDto: ReviewCreateDto,
     @GetUser() authUser: IAuthUser,
@@ -35,7 +50,15 @@ export class ReviewController {
 
   @Get("/user")
   @UserProtected()
+  @ApiBearerAuth("accessToken")
   @ResponseMessage("Review list retrieved successfully")
+  @ApiOperation({
+    summary: "Get review list by user",
+  })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: "Review list retrieved successfully",
+  })
   async getReviewByUser(
     @GetUser() authUser: IAuthUser,
   ): Promise<IResponsePaging<IReviewByUserList>> {
