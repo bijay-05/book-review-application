@@ -1,5 +1,5 @@
-import { Body, Controller, Post, Get, HttpStatus } from "@nestjs/common";
-import { AuthService } from "./auth.service";
+import { Body, Param, Controller, Post, Get, HttpStatus } from "@nestjs/common";
+import { AuthenticationService } from "./auth.service";
 import { UserLoginDto } from "./dtos/login.dto";
 import { ResponseMessage } from "src/common/response/decorators/responseMessage.decorator";
 import {
@@ -14,11 +14,15 @@ import {
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
+import {
+  ForgotPasswordDto,
+  ResetPasswordDto,
+} from "./dtos/change-password.dto";
 
 @ApiTags("Authentication")
 @Controller("auth")
 export class AuthenticationController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthenticationService) {}
 
   @Post("login")
   @ResponseMessage("login success")
@@ -64,7 +68,42 @@ export class AuthenticationController {
 
   @Post("forgot-password")
   @ResponseMessage("Check your email")
-  async forgotPassword(): Promise<IResponse<void>> {
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: "Check your email",
+  })
+  @ApiOperation({
+    summary: "Forgot Password",
+  })
+  async forgotPassword(
+    @Body() data: ForgotPasswordDto,
+  ): Promise<IResponse<void>> {
+    const response = await this.authService.forgotPassword(data.email);
     return {};
+  }
+
+  @Post("reset-password/token/:token/email/:email")
+  @ResponseMessage("Password Changed successfully")
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: "Password Changed successfully",
+  })
+  @ApiOperation({
+    summary: "Reset Password",
+  })
+  async resetPassword(
+    @Param("token") token: string,
+    @Param("email") email: string,
+    @Body() data: ResetPasswordDto,
+  ): Promise<IResponse<string>> {
+    const response = await this.authService.resetPassword({
+      password: data.password,
+      token: token,
+      email: email,
+    });
+
+    return {
+      data: response,
+    };
   }
 }
