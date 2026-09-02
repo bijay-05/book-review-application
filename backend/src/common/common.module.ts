@@ -12,6 +12,7 @@ import configs from "./configs";
 import { ConfigModule } from "@nestjs/config";
 import { ENUM_APP_ENVIRONMENT } from "./constants/app.constant";
 import { MailModule } from "./mailer/mailer.module";
+import { RedisModule } from "./redis/redis.module";
 
 @Module({
   imports: [
@@ -26,14 +27,23 @@ import { MailModule } from "./mailer/mailer.module";
           .required(),
         APP_EMAIL: Joi.string().required(),
         DATABASE_URL: Joi.string().required(),
+
+        MAIL_USER: Joi.string().required(),
+        MAIL_SECRET: Joi.string().required(),
+
         MAX_REQUEST_HIT: Joi.number().required(),
         MAX_REQUEST_HIT_EXPIRATION_TIME_IN_MILLI_SECONDS:
           Joi.number().required(),
         PASSWORD_MAX_REQUEST_LIMIT: Joi.number().required(),
+
         HTTP_HOST: Joi.string().required(),
         HTTP_PORT: Joi.number().required(),
         REDIS_HOST: Joi.string().required(),
         REDIS_PORT: Joi.string().required(),
+
+        AUTH_JWT_ACCESS_TOKEN_SECRET_KEY: Joi.string().required(),
+        AUTH_JWT_ACCESS_TOKEN_EXPIRED: Joi.string().required(),
+
         EMAIL_VERIFICATION_TOKEN_EXPIRED_IN_SECONDS: Joi.string().required(),
         EMAIL_VERIFICATION_TOKEN_SECRET_KEY: Joi.string().required(),
         FRONT_END_BASE_URL: Joi.string().required(),
@@ -52,6 +62,7 @@ import { MailModule } from "./mailer/mailer.module";
     RequestModule,
     MetricsModule,
     MailModule,
+    RedisModule,
   ],
 })
 export class CommonModule {}
