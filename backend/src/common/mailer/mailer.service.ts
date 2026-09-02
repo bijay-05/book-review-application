@@ -1,6 +1,18 @@
 import * as nodemailer from "nodemailer";
+import { Injectable } from "@nestjs/common";
+import { DebuggerService } from "../debugger/debugger.service";
+import { AbstractMailerService } from "./abstract/mailer.abstract.service";
+import { ConfigService } from "@nestjs/config";
 
-export class MailerService {
+@Injectable()
+export class MailerService extends AbstractMailerService {
+  constructor(
+    private readonly debuggerService: DebuggerService,
+    private readonly configService: ConfigService,
+  ) {
+    super();
+  }
+
   async sendMail(
     recepient: string,
     message: string,
@@ -12,18 +24,13 @@ export class MailerService {
       port: 587, //465,
       secure: true,
       auth: {
-        user: process.env["MAIL_USER"], // the email you used to create app password
-        pass: process.env["MAIL_SECRET"], // your generated app password
+        user: this.configService.get<string>("mail.user", "random@gmail.com"), // the email you used to create app password
+        pass: this.configService.get<string>("mail.secret", "randomsecret"), // your generated app password
       },
     });
 
-    // Constructing the message with the sender's email included
-    // const fullMessage = `Sender's Email: ${sender}\nSubject: Nothing but Subject\n\nMessage:\nNothing but message`;
-
-    // console.log("Full message: ", fullMessage);
-
     const mailOptions = {
-      from: process.env["MAIL_USER"], // the email captured from the form
+      from: this.configService.get<string>("mail.user", "random@gmail.com"), // the email captured from the form
       to: recepient, // the email you want to receive emails
       subject: mailSubject, // the subject captured
       text: message, // the message captured
@@ -31,12 +38,10 @@ export class MailerService {
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.error("Error sending email: ", error);
+        throw error("Error sending email: ", error);
       } else {
-        console.log("Email sent: ", info.response);
+        this.debuggerService.log("Email sent: ", info.response);
       }
     });
   }
 }
-
-console.log("This is the console log that never runs");
