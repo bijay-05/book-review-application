@@ -82,4 +82,19 @@ export class UserService {
       throw new BadRequestException("Email already taken");
     }
   }
+
+  async changePassword(id: number, password: string): Promise<void> {
+    try {
+      await this.prismaClient.user.update({
+        where: {
+          id: id,
+        },
+        data: {
+          password: password,
+        },
+      });
+    } catch (err) {
+      throw err;
+    }
+  }
 }
