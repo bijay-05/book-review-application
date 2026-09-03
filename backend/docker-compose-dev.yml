@@ -5,8 +5,29 @@ networks:
 volumes:
   dev_db_pg_data:
     name: dev-db-pg-data
+  dev_redis_data:
+    name: dev-redis-data
 
 services:
+  redis:
+    container_name: dev_redis_container
+    image: "redis/redis-stack:latest"
+    environment:
+      REDIS_ARGS: "--save 60 1 --appendonly yes"
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    volumes:
+      - dev_redis_data:/data
+    networks:
+      - dev_net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+      timeout: 10s
+
   db:
     container_name: dev_db_container
     image: "postgres:16-bookworm"
@@ -33,7 +54,7 @@ services:
 
   api:
     container_name: dev_api_container
-    image: review-api:dev
+    image: review-api:dev-v3
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     env_file:
       - ./.env
