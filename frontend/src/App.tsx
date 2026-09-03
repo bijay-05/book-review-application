@@ -8,6 +8,14 @@ const LazyProfilePage = React.lazy(() => import("./pages/ProfilePage"));
 const LazyUserBookReviewPage = React.lazy(
   () => import("./pages/UserBookReviewPage"),
 );
+const LazyForgotPasswordPage = React.lazy(
+  () => import("./pages/ForgotPasswordPage"),
+);
+
+const LazyResetPasswordPage = React.lazy(
+  () => import("./pages/ResetPasswordPage"),
+);
+
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AuthProvider, {
@@ -93,6 +101,22 @@ export default function App() {
             element={
               <React.Suspense fallback={""}>
                 <LazyUserBookReviewPage />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              <React.Suspense fallback={""}>
+                <LazyForgotPasswordPage />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="/reset-password/token/:token/email/:email"
+            element={
+              <React.Suspense fallback={""}>
+                <LazyResetPasswordPage />
               </React.Suspense>
             }
           />
