@@ -107,7 +107,7 @@ export class AuthenticationService {
     this._mailQueue.sendMail({
       recepient: email,
       mailSubject: "Forgot Password Reset Link",
-      message: `Please visit this link to change your password: ${this.frontendBaseUrl}/forgot-password/${token}`,
+      message: `Please visit this link to change your password: ${this.frontendBaseUrl}/reset-password/token/${token}/email/${email}/`,
     });
   }
 
