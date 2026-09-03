@@ -80,6 +80,14 @@ export default function LogIn() {
                 LogIn
               </button>
             </div>
+            <div className="flex justify-center gap-4 w-[20] gap-3">
+              <button
+                onClick={() => navigate("/forgot-password")}
+                className="border-2 px-8 py-2 rounded-md bg-violet-600 text-white text-xl"
+              >
+                Forgot Password
+              </button>
+            </div>
           </form>
         </div>
       </div>
