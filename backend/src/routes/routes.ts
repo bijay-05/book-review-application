@@ -18,5 +18,3 @@ import { AuthenticationController } from "src/modules/auth/auth.controller";
   ],
 })
 export class ApiRouteModule {}
-
-// Random comment to trigger CI workflow
