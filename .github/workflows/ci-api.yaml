@@ -1,0 +1,92 @@
+name: BookReview API DevSecOps Pipeline (GitHub)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+
+env:
+  REGISTRY: docker.io/${{ secrets.DOCKER_USERNAME }}
+  FULL_COMMIT_SHA: ${{ github.sha }}
+  TRIVY_VERSION: "0.70.0"
+  DOCKER_BUILDKIT: "1"
+  TRIVY_TIMEOUT: 15m
+  GRYPE_DB_MAX_ALLOWED_BUILT_AGE: 336h
+
+jobs:
+  # ───────────────────────────────────────────────────────────────────────────
+  # GATE 1: SECRETS SCAN!
+  # Catch hardcoded secrets before anything else runs.
+  # A leaked secret is a breach. Stop everything if one is found.
+  # ───────────────────────────────────────────────────────────────────────────
+  secrets-scan:
+    name: "Secrets Scan (Gitleaks)"
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code (full history for secrets scan)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history — scan every commit, not just HEAD
+
+      - name: Install Gitleaks (secrets detection engine)
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.18.4/gitleaks_8.18.4_linux_x64.tar.gz \
+            | tar -xz
+          sudo mv gitleaks /usr/local/bin/
+
+      - name: Run Gitleaks (fail if any secret found)
+        run: |
+          gitleaks detect \
+            --source . \
+            --verbose \
+            --report-format json \
+            --report-path api-gitleaks-report.json
+
+      - name: Upload Gitleaks report (evidence)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gitleaks-report
+          path: api-gitleaks-report.json
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # GATE 2: SAST
+  # Static analysis — find security issues in TypeScript/JavaScript code.
+  # ───────────────────────────────────────────────────────────────────────────
+  sast:
+    name: "SAST (Semgrep)"
+
+    runs-on: ubuntu-latest
+    needs: secrets-scan
+    steps:
+      - name: Checkout code (SAST runs on source)
+        uses: actions/checkout@v4
+
+      - name: Install Semgrep (OWASP-focused rulesets)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          python3 -m pip install --user semgrep
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Run Semgrep (fail on findings)
+        run: |
+          semgrep \
+            --config=p/javascript \
+            --config=p/nestjs \
+            --config=p/security-audit \
+            --config=p/secrets \
+            --config=p/owasp-top-ten \
+            --error \
+            --json \
+            --output api-semgrep-results.json \
+            backend/
+
+      - name: Upload Semgrep results (evidence)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-results
+          path: api-semgrep-results.json
