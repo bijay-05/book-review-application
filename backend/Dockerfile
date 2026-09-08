@@ -19,7 +19,7 @@ WORKDIR /app
 RUN addgroup --system --gid 1001 nodegroup
 RUN adduser --system --uid 1001 appuser
 
-COPY .env package.json ./
+COPY package.json package-lock.json ./
 COPY --from=build --chown=appuser:nodegroup /app/dist ./dist
 
 # RUN apk add --no-cache curl && npm install -g @nestjs/cli@11 && npm install --prod
