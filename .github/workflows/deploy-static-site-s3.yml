@@ -1,11 +1,6 @@
 name: S3 static site deploy
 
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - frontend/**
+on: workflow_dispatch
 
 jobs:
   run:
