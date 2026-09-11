@@ -9,9 +9,9 @@ export default registerAs(
     },
     redis: {
       host: process.env.REDIS_HOST,
-      port: process.env.REDIS_PORT,
+      port: Number(process.env.REDIS_PORT),
       // password: process.env.REDIS_PASSWORD,
     },
-    maxPasswordRequest: process.env.PASSWORD_MAX_REQUEST_LIMIT || 10,
+    maxPasswordRequest: Number(process.env.PASSWORD_MAX_REQUEST_LIMIT) || 10,
   }),
 );
