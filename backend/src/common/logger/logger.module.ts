@@ -1,6 +1,6 @@
-import pino from 'pino';
-import { LOGGER_CLIENT_CONNECTION } from './logger.constant';
-import { Module } from '@nestjs/common';
+import pino from "pino";
+import { LOGGER_CLIENT_CONNECTION } from "./logger.constant";
+import { Module } from "@nestjs/common";
 
 @Module({
   imports: [],
@@ -21,9 +21,9 @@ import { Module } from '@nestjs/common';
             timestamp: pino.stdTimeFunctions.isoTime,
           },
           pino.transport({
-            target: 'pino/file',
+            target: "pino/file",
             options: {
-              destination: './app.log',
+              destination: "/app/app.log",
             },
           }),
         );
