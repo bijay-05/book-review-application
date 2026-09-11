@@ -31,13 +31,13 @@ import { RedisModule } from "./redis/redis.module";
         MAIL_USER: Joi.string().required(),
         MAIL_SECRET: Joi.string().required(),
 
-        MAX_REQUEST_HIT: Joi.number().required(),
+        MAX_REQUEST_HIT: Joi.string().required(),
         MAX_REQUEST_HIT_EXPIRATION_TIME_IN_MILLI_SECONDS:
-          Joi.number().required(),
-        PASSWORD_MAX_REQUEST_LIMIT: Joi.number().required(),
+          Joi.string().required(),
+        PASSWORD_MAX_REQUEST_LIMIT: Joi.string().required(),
 
         HTTP_HOST: Joi.string().required(),
-        HTTP_PORT: Joi.number().required(),
+        HTTP_PORT: Joi.string().required(),
         REDIS_HOST: Joi.string().required(),
         REDIS_PORT: Joi.string().required(),
 
