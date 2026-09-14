@@ -23,7 +23,7 @@ COPY package.json package-lock.json ./
 COPY --from=build --chown=appuser:nodegroup /app/dist ./dist
 
 # RUN apk add --no-cache curl && npm install -g @nestjs/cli@11 && npm install --prod
-RUN apk add --no-cache curl && npm ci
+RUN apk add --no-cache curl && chown -R appuser:nodegroup /app && npm ci --prod
 
 USER appuser
 
