@@ -12,20 +12,20 @@ COPY . .
 
 RUN npm run build
 
-FROM node:24-alpine
+FROM node:24-alpine AS deps
 
 WORKDIR /app
 
-RUN addgroup --system --gid 1001 nodegroup
-RUN adduser --system --uid 1001 appuser
-
 COPY package.json package-lock.json ./
-COPY --from=build --chown=appuser:nodegroup /app/dist ./dist
 
-# RUN apk add --no-cache curl && npm install -g @nestjs/cli@11 && npm install --prod
-RUN apk add --no-cache curl && chown -R appuser:nodegroup /app && npm ci --prod
+RUN npm ci --prod
 
-USER appuser
+FROM dhi.io/node:24-alpine
+
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
 
 EXPOSE 3001
 
