@@ -22,10 +22,14 @@ RUN npm ci --prod
 
 FROM dhi.io/node:24-alpine
 
-WORKDIR /app
+## DHI image, write access in user's home directory only
+## needed for creating app.log file by application on start up
+WORKDIR /home/node/app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
+
+USER node
 
 EXPOSE 3001
 
