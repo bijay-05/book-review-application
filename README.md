@@ -1,6 +1,19 @@
 # book-review-application
 
-### Top Features
+## Comprehensive DevSecOps Pipelines
+
+This project incorporates production grade **DevSecOps** pipeline with multiple gates in the pipeline, that validates both application packages and container images, for various checks, and restricts/fails the pipeline (job) for corresponding checks.
+
+### Security Gates in the Pipeline
+
+1. **Git Leaks** : Scanning source code for secrets, passwords, tokens in the repository
+2. **SAST with semgrep**: Static Application Security Testing with semgrep for analysing vulnerabilities in application packages
+3. **Container Scan with trivy**: Scanning built container image with trivy for vulnerabilities, misconfigurations, secrets, CVEs in base images.
+
+> [!Important]
+> To be continued
+
+## Top Features
 
 - Users can sign up and login
 - Read reviews about books and give one
