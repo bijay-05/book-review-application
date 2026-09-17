@@ -29,3 +29,5 @@ For sub-dependencies, whose recommended fixed version is **Minor** version bump,
 ### Major Version Upgrade
 
 For sub-dependencies, whose recommended fixed version is **Major** version bump, I reviewed all the dependency chains that require this sub-dependency with `npm explain fast-uri`. For each dependency chain, I replaced sub-dependency version with recommended fixed version, and removed the sub-dependency's block as well (similar to above minor version upgrade). After this, I ran `npm i`, this resulted in new updated (major) version installed and specified in `package-lock.json`.
+
+[Reference: Upgrade Sub-dependencies](https://bionicjulia.com/blog/upgrade-npm-package-dependencies-yarn)
