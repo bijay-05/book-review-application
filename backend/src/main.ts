@@ -21,7 +21,7 @@ async function bootstrap() {
     }),
   );
 
-  const port: number = configService.get<number>("app.http.port", 3000);
+  const port: number = configService.get<number>("app.http.port", 3001);
   const host: string = configService.get<string>("app.http.host", "localhost");
   app.enableShutdownHooks();
   await app.listen(port, host);
