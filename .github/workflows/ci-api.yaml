@@ -204,5 +204,57 @@ jobs:
           publish() { local local_tag=$1 ecr_tag=$2
             bash scripts/ci-publish-image.sh "${local_tag}" "${ecr_tag}" ""
           }
-          [ "$BUILD_WEB"    = "true" ] && publish "bookreview-web:${IMAGE_TAG}"   "${ECR_REGISTRY}/book-review-app/web:${IMAGE_TAG}"
-          [ "$BUILD_API"  = "true" ] && publish "bookreview-api:${IMAGE_TAG}"   "${ECR_REGISTRY}/book-review-app/api:${IMAGE_TAG}"
+          [ "$BUILD_WEB"    = "true" ] && publish "bookreview-web:${IMAGE_TAG}"   "${ECR_IMAGE_REGISTRY}/book-review-app/web:${IMAGE_TAG}"
+          [ "$BUILD_API"  = "true" ] && publish "bookreview-api:${IMAGE_TAG}"   "${ECR_IMAGE_REGISTRY}/book-review-app/api:${IMAGE_TAG}"
+
+  update-manifests:
+    name: "Update GitOps manifests (kustomization.yaml)"
+    runs-on: ubuntu-latest
+    needs: [publish-images]
+    env:
+      BUILD_WEB: ${{ needs.detect-changes.outputs.web }}
+      BUILD_API: ${{ needs.detect-changes.outputs.api }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: app
+
+      - name: Checkout infra repo (GitOps target)
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/bookreview-app-infra
+          token: ${{ secrets.INFRA_REPO_TOKEN }}
+          path: infra
+
+      - name: Update only changed service tags in kustomization
+        run: |
+          set -euo pipefail
+          if ! command -v kustomize &>/dev/null; then
+            curl -sL "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.4.3/kustomize_v5.4.3_linux_amd64.tar.gz" \
+              | tar xz && sudo mv kustomize /usr/local/bin/
+          fi
+          IMAGE_TAG=${FULL_COMMIT_SHA::6}
+          export IMAGE_TAG=$IMAGE_TAG
+          rsync -a --delete \
+            app/manifests/ infra/manifests/
+          cd infra/manifests
+          [ "$BUILD_WEB"    = "true" ] && kustomize edit set image \
+            book-review-app/web=${ECR_IMAGE_REGISTRY}/book-review-app/web:$IMAGE_TAG
+          [ "$BUILD_API" = "true" ] && kustomize edit set image \
+            book-review-app/api=${ECR_IMAGE_REGISTRY}/book-review-app/api:$IMAGE_TAG
+          kustomize build . >/dev/null
+          echo "✓ kustomize build OK"
+
+      - name: Commit and push (ArgoCD syncs book-review-app cluster)
+        run: |
+          IMAGE_TAG=${FULL_COMMIT_SHA::6}
+          cd infra/
+          git config user.email "github-ci@bookreview-app"
+          git config user.name "GitHub Actions Bot"
+          git add "manifests/kustomization.yaml"
+          if git diff --staged --quiet; then
+            echo "No manifest changes"
+          else
+            git commit -m "ci: deploy ${{ env.IMAGE_TAG }} to cluster [skip ci]"
+            git push
+          fi
