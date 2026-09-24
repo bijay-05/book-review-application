@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: api-container
-          image: REGISTRY_IMAGE_URL
+          image: book-review-app/api:gitops
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:

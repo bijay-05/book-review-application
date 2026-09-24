@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: web-container
-          image: REGISTRY_IMAGE_URL
+          image: book-review-app/web:gitops
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
