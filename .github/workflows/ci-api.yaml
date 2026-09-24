@@ -238,9 +238,9 @@ jobs:
           rsync -a --delete \
             app/manifests/ infra/manifests/
           cd infra/manifests
-          [ "$BUILD_WEB" = "true" ] && echo "Update WEB" && kustomize edit set image \
+          [ "$BUILD_WEB" = "true" ] && echo "WEB: Update manifests" && kustomize edit set image \
             book-review-app/web=${ECR_IMAGE_REGISTRY}/book-review-app/web:$IMAGE_TAG
-          [ "$BUILD_API" = "true" ] && echo "Update API" && kustomize edit set image \
+          [ "$BUILD_API" = "true" ] && echo "API: Update manifests" && kustomize edit set image \
             book-review-app/api=${ECR_IMAGE_REGISTRY}/book-review-app/api:$IMAGE_TAG
           kustomize build . >/dev/null
           echo "✓ kustomize build OK"
