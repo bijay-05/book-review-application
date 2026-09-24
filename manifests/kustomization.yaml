@@ -5,7 +5,7 @@ namespace: bookreview
 
 resources:
   - namespace.yaml
-  - ingress.yaml
+  - ingress/ingress.yaml
   - api/deployment.yaml
   - api/service.yaml
   - api/configmap.yaml
