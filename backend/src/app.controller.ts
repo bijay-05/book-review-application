@@ -16,6 +16,7 @@ export class AppController {
         { value: "science-fiction", id: 1, name: "Science Fiction" },
         { value: "history", id: 2, name: "History" },
         { value: "comic", id: 3, name: "Comic" },
+        { value: "novel", id: 4, name: "Novel" },
       ],
     };
   }
