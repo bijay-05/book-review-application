@@ -10,7 +10,7 @@ export async function swaggerInit(app: NestApplication) {
     const apiRouterDocumentBuild = new DocumentBuilder()
       .setTitle("Book Review API Documentation")
       .setDescription(
-        "This is the API documentation for the Book Review Backend.",
+        "This is the API documentation for the Book Review Backend API.",
       )
       .setVersion("1.0")
       .addBearerAuth()
