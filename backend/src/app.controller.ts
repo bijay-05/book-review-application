@@ -17,6 +17,7 @@ export class AppController {
         { value: "history", id: 2, name: "History" },
         { value: "comic", id: 3, name: "Comic" },
         { value: "novel", id: 4, name: "Novel" },
+        { value: "romance", id: 5, name: "Romance" },
       ],
     };
   }
