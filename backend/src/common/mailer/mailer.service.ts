@@ -38,7 +38,7 @@ export class MailerService extends AbstractMailerService {
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        throw error("Error sending email: ", error);
+        throw new Error("Error sending email: ", error);
       } else {
         this.debuggerService.log("Email sent: ", info.response);
       }
