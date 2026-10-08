@@ -210,7 +210,7 @@ jobs:
   update-manifests:
     name: "Update GitOps manifests (kustomization.yaml)"
     runs-on: ubuntu-latest
-    needs: [publish-images]
+    needs: [publish-images, detect-changes]
     env:
       BUILD_WEB: ${{ needs.detect-changes.outputs.web }}
       BUILD_API: ${{ needs.detect-changes.outputs.api }}
@@ -255,6 +255,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No manifest changes"
           else
-            git commit -m "ci: deploy ${{ env.IMAGE_TAG }} to cluster [skip ci]"
+            [ "$BUILD_WEB" = "true" ] && git commit -m "ci: deploy web:$IMAGE_TAG to cluster [skip ci]"
+            [ "$BUILD_API" = "true" ] && git commit -m "ci: deploy api:$IMAGE_TAG to cluster [skip-ci]"
             git push
           fi
