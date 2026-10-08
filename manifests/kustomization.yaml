@@ -5,12 +5,13 @@ namespace: bookreview
 
 resources:
   - namespace.yaml
-  - ingress/ingress.yaml
+  # - ingress/ingress.yaml
+  - test-ingress.yaml
   - api/deployment.yaml
   - api/service.yaml
   - api/configmap.yaml
-  - web/deployment.yaml
-  - web/service.yaml
+  # - web/deployment.yaml
+  # - web/service.yaml
   - database/deployment.yaml
   - database/service.yaml
   - database/configmap.yaml

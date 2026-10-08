@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: book-ingress
   namespace: bookreview
+  ## turn-off annotations for non-EKS Clusters
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: "/healthz"
 spec:
