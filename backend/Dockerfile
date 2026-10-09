@@ -33,6 +33,4 @@ USER node
 
 EXPOSE 3001
 
-ENTRYPOINT node 
-
-CMD dist/src/main.js
+ENTRYPOINT node src/dist/main.js
