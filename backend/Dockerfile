@@ -33,4 +33,4 @@ USER node
 
 EXPOSE 3001
 
-ENTRYPOINT node src/dist/main.js
+ENTRYPOINT ["node", "dist/src/main.js"]
