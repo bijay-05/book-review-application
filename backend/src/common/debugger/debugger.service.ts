@@ -1,15 +1,14 @@
 import { Injectable, Inject } from "@nestjs/common";
-import pino from "pino";
-import { LOGGER_CLIENT_CONNECTION } from "../logger/logger.constant";
+// import pino from "pino";
+// import { LOGGER_CLIENT_CONNECTION } from "../logger/logger.constant";
 import { ENUM_APP_ENVIRONMENT } from "../constants/app.constant";
 
 @Injectable()
 export class DebuggerService {
   env: string;
-  constructor(
-    @Inject(LOGGER_CLIENT_CONNECTION)
-    private readonly loggerService: pino.Logger,
-  ) {
+  constructor() {
+    // @Inject(LOGGER_CLIENT_CONNECTION)
+    // private readonly loggerService: pino.Logger,
     this.env = process.env.APP_MODE || ENUM_APP_ENVIRONMENT.DEVELOPMENT;
   }
 
@@ -21,15 +20,16 @@ export class DebuggerService {
 
   info(data: any) {
     console.log("🚀 ~ DebuggerService ~ info ~ data:", data);
-    this.loggerService.info(data);
+    // this.loggerService.info(data);
   }
 
   warn(data: any) {
     console.log("🚀 ~ DebuggerService ~ warn ~ data:", data);
-    this.loggerService.warn(data);
+    // this.loggerService.warn(data);
   }
 
   error(error: any | Error) {
-    this.loggerService.error(error);
+    console.error("🚀 ~ DebuggerService ~ error ~ data:", error);
+    // this.loggerService.error(error);
   }
 }

@@ -1,10 +1,10 @@
-import { Global, Module } from '@nestjs/common';
-import { DebuggerService } from './debugger.service';
-import { LoggerModule } from '../logger/logger.module';
+import { Global, Module } from "@nestjs/common";
+import { DebuggerService } from "./debugger.service";
+// import { LoggerModule } from '../logger/logger.module';
 
 @Global()
 @Module({
-  imports: [LoggerModule],
+  imports: [],
   providers: [DebuggerService],
   exports: [DebuggerService],
 })
