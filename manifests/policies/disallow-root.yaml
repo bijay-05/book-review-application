@@ -1,0 +1,67 @@
+# INTRODUCED: Stage 4 — Admission Control
+# UPDATED:    Stage 5 — foreach skips Vault agent containers (injected sidecars)
+# PURPOSE: Block root containers cluster-wide in the bookreview namespace
+# FRAMEWORK: CIS Kubernetes 5.2.6 / PCI-DSS 6.5
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-root-containers
+  annotations:
+    policies.kyverno.io/title: Disallow Root Containers
+    policies.kyverno.io/category: Pod Security
+    policies.kyverno.io/severity: high
+    policies.kyverno.io/description: >
+      Containers must not run as root. Vault agent init/sidecar containers are
+      excluded by name — they are injected by HashiCorp's mutating webhook.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: check-runAsNonRoot-containers
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+              namespaces: [bookreview]
+      validate:
+        message: >
+          Root containers are blocked in the bookreview namespace.
+          Set securityContext.runAsNonRoot: true on the pod or container.
+        foreach:
+          - list: request.object.spec.containers
+            deny:
+              conditions:
+                all:
+                  - key: "{{ element.name }}"
+                    operator: AnyNotIn
+                    value:
+                      - vault-agent
+                  - key: "{{ element.securityContext.runAsNonRoot || '' }}"
+                    operator: NotEquals
+                    value: true
+    - name: check-runAsNonRoot-initcontainers
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+              namespaces: [bookreview]
+      preconditions:
+        all:
+          - key: "{{ request.object.spec.initContainers[] || `[]` | length(@) }}"
+            operator: GreaterThan
+            value: 0
+      validate:
+        message: >
+          Root initContainers are blocked in the bookreview namespace.
+        foreach:
+          - list: request.object.spec.initContainers
+            deny:
+              conditions:
+                all:
+                  - key: "{{ element.name }}"
+                    operator: AnyNotIn
+                    value:
+                      - vault-agent-init
+                  - key: "{{ element.securityContext.runAsNonRoot || '' }}"
+                    operator: NotEquals
+                    value: true

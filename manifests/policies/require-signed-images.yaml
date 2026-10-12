@@ -1,0 +1,36 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-signed-images
+  annotations:
+    policies.kyverno.io/title: Require Signed Images
+    policies.kyverno.io/severity: critical
+    policies.kyverno.io/description: >
+      Only images signed with the BookReview Cosign key are permitted.
+      This prevents supply chain attacks — a critical fintech security control.
+spec:
+  validationFailureAction: Enforce
+  background: false
+  webhookTimeoutSeconds: 30
+  failurePolicy: Fail
+  rules:
+    - name: verify-cosign-signature
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+              namespaces: [bookreview]
+      verifyImages:
+        - imageReferences:
+            # Use index.docker.io — Kyverno 1.12 matches this form reliably for verifyImages.
+            # docker.io/* patterns may skip signature verification on some clusters.
+            - "ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/book-review-app/api"
+            - "ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/book-review-app/web"
+          attestors:
+            - count: 1
+              entries:
+                - keys:
+                    publicKeys: |-
+                      -----BEGIN PUBLIC KEY-----
+                      <COSGIN_PUBLIC_KEY_CONTENT>
+                      -----END PUBLIC KEY-----
