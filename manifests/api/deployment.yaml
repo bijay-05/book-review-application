@@ -16,6 +16,12 @@ spec:
       labels:
         app: api
     spec:
+      serviceAccountName: api-service
+      automountServiceAccountToken: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
       containers:
         - name: api-container
           image: book-review-app/api:gitops
@@ -25,3 +31,8 @@ spec:
                 name: api-env-cm
           ports:
             - containerPort: 3001
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]

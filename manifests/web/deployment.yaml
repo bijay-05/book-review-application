@@ -16,9 +16,20 @@ spec:
       labels:
         app: web
     spec:
+      serviceAccountName: web-service
+      automountServiceAccountToken: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
       containers:
         - name: web-container
           image: book-review-app/web:gitops
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
